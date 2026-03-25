@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Green Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="home">
+  <div class="app-shell">
+    <header class="top-header">
+      <div class="top-row">
+        <div class="logo-wrap">
+          <img src="logo.jpg" alt="Green Centre logo" class="logo-img">
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn" type="button">🔔</button>
+          <a href="cart.html" class="icon-btn cart-link">
+            🛒
+            <span class="cart-badge" id="cartBadge">0</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="homeSearch" placeholder="Search Green Centre products..." />
+      </div>
+    </header>
+
+    <main class="page-content">
+      <section class="call-strip">
+        <p>CALL TO ORDER: 08030609728, 08023004458</p>
+      </section>
+
+      <section class="hero-banner">
+        <div class="hero-slide">
+          <div class="hero-text">
+            <p class="hero-kicker">Trusted Natural Wellness</p>
+            <h1>Quality Health Products For Everyday Support</h1>
+            <p>Supplements, herbal products and wellness support from Green Centre.</p>
+          </div>
+
+          <div class="hero-art">
+            <img src="logo.jpg" alt="Green Centre banner">
+          </div>
+        </div>
+      </section>
+
+      <section class="quick-grid">
+        <div class="quick-item" onclick="setSelectedCategory('Supplements'); window.location.href='categories.html'">
+          <div class="quick-thumb">💊</div>
+          <span>Supplements</span>
+        </div>
+
+        <div class="quick-item" onclick="setSelectedCategory('Herbal Products'); window.location.href='categories.html'">
+          <div class="quick-thumb">🌿</div>
+          <span>Herbal</span>
+        </div>
+
+        <div class="quick-item" onclick="setSelectedCategory('Liquid Supplements'); window.location.href='categories.html'">
+          <div class="quick-thumb">🧃</div>
+          <span>Liquid</span>
+        </div>
+
+        <div class="quick-item" onclick="setSelectedCategory('Pain Relief'); window.location.href='categories.html'">
+          <div class="quick-thumb">🦴</div>
+          <span>Pain Relief</span>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <h2>Featured Products</h2>
+          <a href="categories.html" onclick="setSelectedCategory('All')">See All</a>
+        </div>
+        <div class="product-grid" id="featuredProducts"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <h2>Herbal Products</h2>
+          <a href="categories.html" onclick="setSelectedCategory('Herbal Products')">See All</a>
+        </div>
+        <div class="product-grid" id="herbalProducts"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <h2>Supplements</h2>
+          <a href="categories.html" onclick="setSelectedCategory('Supplements')">See All</a>
+        </div>
+        <div class="product-grid" id="supplementProducts"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <h2>Liquid Supplements</h2>
+          <a href="categories.html" onclick="setSelectedCategory('Liquid Supplements')">See All</a>
+        </div>
+        <div class="product-grid" id="liquidProducts"></div>
+      </section>
+
+      <footer style="text-align:center; padding:12px; font-size:12px; color:#777;">
+        © 2026 Green Centre Institute of Natural Medicine  
+        Ikeja, Lagos | 08030609728, 08023004458
+     </footer>
+
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item active">
+        <span>🏠</span>
+        <small>Home</small>
+      </a>
+      <a href="categories.html" class="nav-item" onclick="setSelectedCategory('All')">
+        <span>📂</span>
+        <small>Categories</small>
+      </a>
+      <a href="cart.html" class="nav-item">
+        <span>🛒</span>
+        <small>Cart</small>
+      </a>
+      <a href="account.html" class="nav-item">
+        <span>👤</span>
+        <small>Account</small>
+      </a>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

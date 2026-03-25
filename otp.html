@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify Account - Green Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+  <main class="auth-app">
+    <section class="auth-screen otp-screen">
+      <div class="top-link-row">
+        <a href="signup.html" class="back-link">← Back</a>
+      </div>
+
+      <div class="logo-wrap small-logo-wrap">
+        <div class="logo-circle small-logo">
+          <img src="logo.jpg" alt="Green Centre Logo">
+        </div>
+      </div>
+
+      <div class="auth-copy auth-copy-left">
+        <h1>Verify Your Account</h1>
+        <p>Enter the 6-digit code sent to your email address.</p>
+      </div>
+
+      <form id="otpForm" class="otp-form">
+        <div class="otp-inputs">
+          <input type="text" maxlength="1" inputmode="numeric" class="otp-box" required>
+          <input type="text" maxlength="1" inputmode="numeric" class="otp-box" required>
+          <input type="text" maxlength="1" inputmode="numeric" class="otp-box" required>
+          <input type="text" maxlength="1" inputmode="numeric" class="otp-box" required>
+          <input type="text" maxlength="1" inputmode="numeric" class="otp-box" required>
+          <input type="text" maxlength="1" inputmode="numeric" class="otp-box" required>
+        </div>
+
+        <button type="submit" class="primary-btn full-btn">Verify</button>
+      </form>
+
+      <p class="auth-switch">
+        Didn’t get the code?
+        <a href="#">Resend Code</a>
+      </p>
+    </section>
+  </main>
+
+  <script src="auth.js"></script>
+</body>
+</html>

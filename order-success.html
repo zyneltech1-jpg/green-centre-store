@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Successful - Green Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="order-success">
+  <div class="app-shell">
+    <header class="top-header">
+      <div class="top-row">
+        <div class="page-title">Order Successful</div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <section class="section-card success-card">
+        <div class="success-icon">✅</div>
+        <h1>Order Placed Successfully</h1>
+        <p class="success-text">Your order has been received successfully.</p>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head no-link">
+          <h2>Order Summary</h2>
+        </div>
+
+        <div class="success-summary">
+          <div class="summary-row">
+            <span>Order Date</span>
+            <strong id="successDate">-</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Payment Method</span>
+            <strong id="successPayment">-</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Items</span>
+            <strong id="successItems">0</strong>
+          </div>
+
+          <div class="summary-row total-row">
+            <span>Total</span>
+            <strong id="successTotal">₦0</strong>
+          </div>
+        </div>
+      </section>
+
+      <div class="success-actions">
+        <a href="index.html" class="primary-btn full-btn">Continue Shopping</a>
+        <a href="account.html" class="secondary-btn full-btn">View Account</a>
+      </div>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <span>🏠</span>
+        <small>Home</small>
+      </a>
+      <a href="categories.html" class="nav-item">
+        <span>📂</span>
+        <small>Categories</small>
+      </a>
+      <a href="cart.html" class="nav-item">
+        <span>🛒</span>
+        <small>Cart</small>
+      </a>
+      <a href="account.html" class="nav-item active">
+        <span>👤</span>
+        <small>Account</small>
+      </a>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account - Green Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="account">
+  <div class="app-shell">
+    <header class="top-header">
+      <div class="top-row">
+        <div class="page-title">Account</div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <section class="section-card account-head">
+        <h2 id="userName">Welcome User</h2>
+        <p id="userEmail">user@email.com</p>
+      </section>
+
+      <section class="section-card two-button-row">
+        <button class="orange-btn">Live Chat</button>
+        <button class="whatsapp-btn">WhatsApp</button>
+      </section>
+
+      <section class="section-card">
+        <h3 class="sub-heading">Need Assistance?</h3>
+        <div class="menu-list">
+          <a href="#" class="menu-item"><span>Help & Support</span><span>›</span></a>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h3 class="sub-heading">My Account</h3>
+        <div class="menu-list">
+          <a href="#orderHistorySection" class="menu-item"><span>Orders</span><span>›</span></a>
+          <a href="#" class="menu-item"><span>Inbox</span><span>›</span></a>
+          <a href="#" class="menu-item"><span>Ratings & Reviews</span><span>›</span></a>
+          <a href="wishlist.html" class="menu-item"><span>Wishlist</span><span>›</span></a>
+          <a href="#" class="menu-item"><span>Recently Viewed</span><span>›</span></a>
+        </div>
+      </section>
+
+      <section class="section-card" id="orderHistorySection">
+        <h3 class="sub-heading">Order History</h3>
+        <div id="orderHistoryList"></div>
+      </section>
+
+      <button id="logoutBtn" class="danger-btn full-btn">Logout</button>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <span>🏠</span>
+        <small>Home</small>
+      </a>
+      <a href="categories.html" class="nav-item">
+        <span>📂</span>
+        <small>Categories</small>
+      </a>
+      <a href="cart.html" class="nav-item">
+        <span>🛒</span>
+        <small>Cart</small>
+      </a>
+      <a href="account.html" class="nav-item active">
+        <span>👤</span>
+        <small>Account</small>
+      </a>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

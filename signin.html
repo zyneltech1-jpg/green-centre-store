@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In - Green Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+  <main class="auth-app">
+    <section class="auth-screen">
+      <div class="top-link-row">
+        <a href="welcome.html" class="back-link">← Back</a>
+      </div>
+
+      <div class="logo-wrap small-logo-wrap">
+        <div class="logo-circle small-logo">
+          <img src="logo.jpg" alt="Green Centre Logo">
+        </div>
+      </div>
+
+      <div class="auth-copy auth-copy-left">
+        <h1>Welcome Back</h1>
+        <p>Sign in to continue shopping.</p>
+      </div>
+
+      <form id="signinForm" class="auth-form">
+        <div class="form-group">
+          <label for="signinEmail">Email Address</label>
+          <input type="email" id="signinEmail" placeholder="Enter email address" required>
+        </div>
+
+        <div class="form-group">
+          <label for="signinPassword">Password</label>
+          <input type="password" id="signinPassword" placeholder="Enter password" required>
+        </div>
+
+        <a href="#" class="small-link forgot-link">Forgot Password?</a>
+
+        <button type="submit" class="primary-btn full-btn">Sign In</button>
+      </form>
+
+      <p class="auth-switch">
+        Don’t have an account?
+        <a href="signup.html">Create Account</a>
+      </p>
+    </section>
+  </main>
+
+  <script src="auth.js"></script>
+</body>
+</html>

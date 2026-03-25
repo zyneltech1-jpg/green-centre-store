@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Categories - Green Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="categories">
+  <div class="app-shell">
+    <header class="top-header">
+      <div class="top-row">
+        <div class="page-title">Categories</div>
+
+        <a href="cart.html" class="icon-btn cart-link">
+          🛒
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+      </div>
+
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="categorySearch" placeholder="Search products..." />
+      </div>
+    </header>
+
+    <main class="page-content">
+      <section class="section-card">
+        <div class="section-head no-link">
+          <h2>Browse by Category</h2>
+        </div>
+
+        <div class="category-list" id="categoryList">
+          <button class="category-pill active" data-category="All">All</button>
+          <button class="category-pill" data-category="Supplements">Supplements</button>
+          <button class="category-pill" data-category="Herbal Products">Herbal Products</button>
+          <button class="category-pill" data-category="Liquid Supplements">Liquid Supplements</button>
+          <button class="category-pill" data-category="Pain Relief">Pain Relief</button>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head no-link">
+          <h2>Products</h2>
+        </div>
+
+        <div class="product-grid" id="categoryProducts"></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item" onclick="setSelectedCategory('All')">
+        <span>🏠</span>
+        <small>Home</small>
+      </a>
+      <a href="categories.html" class="nav-item active" onclick="setSelectedCategory('All')">
+        <span>📂</span>
+        <small>Categories</small>
+      </a>
+      <a href="cart.html" class="nav-item">
+        <span>🛒</span>
+        <small>Cart</small>
+      </a>
+      <a href="account.html" class="nav-item">
+        <span>👤</span>
+        <small>Account</small>
+      </a>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details - Green Centre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="product-details">
+  <div class="app-shell">
+    <header class="top-header">
+      <div class="top-row">
+        <a href="categories.html" class="small-top-link">← Back</a>
+
+        <a href="cart.html" class="icon-btn cart-link">
+          🛒
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <section class="section-card details-card">
+        <div class="details-image-wrap">
+          <img id="detailsImage" src="" alt="Product image">
+        </div>
+
+        <div class="details-body">
+          <p class="badge" id="detailsCategory">Category</p>
+          <h1 class="details-title" id="detailsName">Product Name</h1>
+          <p class="details-price" id="detailsPrice">₦0</p>
+          <p class="details-description" id="detailsDescription">Product description goes here.</p>
+        </div>
+      </section>
+
+      <section class="section-card details-info-card">
+        <h3 class="details-subheading">Product Information</h3>
+        <ul class="details-list">
+          <li>Trusted Green Centre wellness product</li>
+          <li>Available for checkout after login</li>
+          <li>Pay online or on delivery at checkout</li>
+        </ul>
+      </section>
+
+      <section class="details-action-bar">
+        <button class="secondary-btn details-btn" id="detailsWishlistBtn">Wishlist</button>
+        <button class="primary-btn details-btn" id="detailsCartBtn">Add to Cart</button>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <span>🏠</span>
+        <small>Home</small>
+      </a>
+      <a href="categories.html" class="nav-item">
+        <span>📂</span>
+        <small>Categories</small>
+      </a>
+      <a href="cart.html" class="nav-item">
+        <span>🛒</span>
+        <small>Cart</small>
+      </a>
+      <a href="account.html" class="nav-item">
+        <span>👤</span>
+        <small>Account</small>
+      </a>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
