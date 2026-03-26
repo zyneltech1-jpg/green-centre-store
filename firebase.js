@@ -14,4 +14,6 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
   const auth = getauth(app);
 
+  export { auth };
+
 console.log("Firebase connected successfully 🔥");
