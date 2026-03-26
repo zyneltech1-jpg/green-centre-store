@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getauth } from "http://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"
 
 const firebaseConfig = {
     apiKey: "AIzaSyAWmVyjSdRpXx_O6JMRzroK-Vf4gtLEuEo",
@@ -11,5 +12,6 @@ const firebaseConfig = {
   };
 
   const app = initializeApp(firebaseConfig);
+  const auth = getauth(app);
 
 console.log("Firebase connected successfully 🔥");
