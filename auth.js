@@ -1,7 +1,11 @@
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  doc,
+  setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 console.log("AUTH LOADED");
@@ -38,7 +42,16 @@ window.addEventListener("load", () => {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "user", user.uid), {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        createdAt: new Date().toISOString()
+      });
 
       localStorage.setItem(
         "greenCentreUser",
