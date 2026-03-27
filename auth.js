@@ -1,74 +1,87 @@
 import { auth } from "./firebase.js";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-console.log("AUTH FILE LOADED");
+console.log("AUTH LOADED");
 
-const signupForm = document.querySelector("#signupForm");
-const signinForm = document.querySelector("#signinForm");
+window.addEventListener("load", () => {
+  console.log("PAGE FULLY LOADED");
 
-if (signupForm) {
-  console.log("SIGNUP FORM FOUND");
+  const signupForm = document.getElementById("signupForm");
+  const signinForm = document.getElementById("signinForm");
 
-  signupForm.onsubmit = async function (e) {
-    e.preventDefault();
-    console.log("SIGNUP SUBMIT CAUGHT");
+  console.log("signupForm:", signupForm);
+  console.log("signinForm:", signinForm);
 
-    const firstName = document.querySelector("#firstName").value.trim();
-    const lastName = document.querySelector("#lastName").value.trim();
-    const email = document.querySelector("#signupEmail").value.trim();
-    const phone = document.querySelector("#phoneNumber").value.trim();
-    const password = document.querySelector("#signupPassword").value;
-    const confirmPassword = document.querySelector("#confirmPassword").value;
+  if (signupForm) {
+    signupForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      e.stopPropagation();
 
-    if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
-      alert("Please fill in all fields.");
-      return;
-    }
+      alert("SIGNUP JS IS CATCHING SUBMIT");
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const phone = document.getElementById("phoneNumber").value.trim();
+      const password = document.getElementById("signupPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
 
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      localStorage.setItem(
-        "greenCentreUser",
-        JSON.stringify({ firstName, lastName, email, phone })
-      );
-      localStorage.setItem("greenCentreLoggedIn", "true");
-      alert("Account created successfully 🔥");
-      window.location.href = "index.html";
-    } catch (error) {
-      console.log("SIGNUP ERROR:", error);
-      alert(error.message);
-    }
-  };
-}
+      if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
-if (signinForm) {
-  console.log("SIGNIN FORM FOUND");
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
 
-  signinForm.onsubmit = async function (e) {
-    e.preventDefault();
-    console.log("SIGNIN SUBMIT CAUGHT");
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
 
-    const email = document.querySelector("#signinEmail").value.trim();
-    const password = document.querySelector("#signinPassword").value;
+        localStorage.setItem(
+          "greenCentreUser",
+          JSON.stringify({ firstName, lastName, email, phone })
+        );
 
-    if (!email || !password) {
-      alert("Please fill in all fields.");
-      return;
-    }
+        localStorage.setItem("greenCentreLoggedIn", "true");
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem("greenCentreLoggedIn", "true");
-      alert("Login successful ✅");
-      window.location.href = "index.html";
-    } catch (error) {
-      console.log("SIGNIN ERROR:", error);
-      alert(error.message);
-    }
-  };
-}
+        alert("Account created successfully 🔥");
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("SIGNUP ERROR:", error);
+        alert(error.message);
+      }
+    });
+  }
+
+  if (signinForm) {
+    signinForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      alert("SIGNIN JS IS CATCHING SUBMIT");
+
+      const email = document.getElementById("signinEmail").value.trim();
+      const password = document.getElementById("signinPassword").value;
+
+      if (!email || !password) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        localStorage.setItem("greenCentreLoggedIn", "true");
+        alert("Login successful ✅");
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("SIGNIN ERROR:", error);
+        alert(error.message);
+      }
+    });
+  }
+});
