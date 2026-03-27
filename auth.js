@@ -84,7 +84,6 @@ window.addEventListener("load", () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       localStorage.setItem("greenCentreLoggedIn", "true");
-      alert("Login successful ✅");
       window.location.href = "index.html";
     } catch (error) {
       alert(error.message);
