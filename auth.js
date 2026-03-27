@@ -16,47 +16,44 @@ window.addEventListener("load", () => {
   console.log("signinForm:", signinForm);
 
   if (signupForm) {
-    signupForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      e.stopPropagation();
+  signupForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-      alert("SIGNUP JS IS CATCHING SUBMIT");
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const phone = document.getElementById("phoneNumber").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
-      const firstName = document.getElementById("firstName").value.trim();
-      const lastName = document.getElementById("lastName").value.trim();
-      const email = document.getElementById("signupEmail").value.trim();
-      const phone = document.getElementById("phoneNumber").value.trim();
-      const password = document.getElementById("signupPassword").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
+    if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
 
-      if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
-        alert("Please fill in all fields.");
-        return;
-      }
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
 
-      if (password !== confirmPassword) {
-        alert("Passwords do not match.");
-        return;
-      }
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
 
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
+      localStorage.setItem(
+        "greenCentreUser",
+        JSON.stringify({ firstName, lastName, email, phone })
+      );
+      localStorage.setItem("greenCentreLoggedIn", "true");
 
-        localStorage.setItem(
-          "greenCentreUser",
-          JSON.stringify({ firstName, lastName, email, phone })
-        );
-
-        localStorage.setItem("greenCentreLoggedIn", "true");
-
-        alert("Account created successfully 🔥");
-        window.location.href = "index.html";
-      } catch (error) {
-        console.error("SIGNUP ERROR:", error);
-        alert(error.message);
-      }
-    });
-  }
+      alert("Account created successfully 🔥");
+      window.location.href = "index.html";
+    } catch (error) {
+      alert(error.message);
+      console.log(error);
+    }
+  });
+}
 
   if (signinForm) {
     signinForm.addEventListener("submit", async function (e) {
