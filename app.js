@@ -262,6 +262,9 @@ function getLastOrder() {
 /* =========================
    PAGE PROTECTION
 ========================= */
+import { auth } from "./firebase.js";
+import { onAuthStateChange } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 function protectPages() {
   const protectedPages = [
     "home",
@@ -275,10 +278,12 @@ function protectPages() {
   ];
 
   const currentPage = document.body.dataset.page;
-
-  if (protectedPages.includes(currentPage) && !isLoggedIn()) {
-    window.location.href = "welcome.html";
+  
+  onAuthStateChange(auth, (user) => {
+    if (!user && protectedPages.includes(currentPage)) {
+    window.location.href = "signin.html";
   }
+  });
 }
 
 /* =========================
@@ -844,13 +849,21 @@ function fillAccount() {
   }
 }
 
+import { signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 function setupLogout() {
   const logoutBtn = document.getElementById("logoutBtn");
   if (!logoutBtn) return;
 
-  logoutBtn.addEventListener("click", function () {
-    localStorage.removeItem("greenCentreLoggedIn");
-    window.location.href = "welcome.html";
+  logoutBtn.addEventListener("click", async function () {
+    try {
+      await signOut(auth);
+      localStorage.removeItem("greenCentreLoggedIn");
+      window.location.href = "signin.html";
+    } catch (error) {
+      alert(error.message);
+      console.log(error);
+    }
   });
 }
 
