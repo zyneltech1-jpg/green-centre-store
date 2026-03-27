@@ -6,7 +6,7 @@ import {
 import {
   doc,
   setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 console.log("AUTH LOADED");
 
@@ -45,7 +45,7 @@ window.addEventListener("load", () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      await setDoc(doc(db, "user", user.uid), {
+      await setDoc(doc(db, "users", user.uid), {
         firstName: firstName,
         lastName: lastName,
         email: email,
