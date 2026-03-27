@@ -56,29 +56,27 @@ window.addEventListener("load", () => {
 }
 
   if (signinForm) {
-    signinForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      e.stopPropagation();
+  signinForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-      alert("SIGNIN JS IS CATCHING SUBMIT");
+    const email = document.getElementById("signinEmail").value.trim();
+    const password = document.getElementById("signinPassword").value;
 
-      const email = document.getElementById("signinEmail").value.trim();
-      const password = document.getElementById("signinPassword").value;
+    if (!email || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
 
-      if (!email || !password) {
-        alert("Please fill in all fields.");
-        return;
-      }
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        localStorage.setItem("greenCentreLoggedIn", "true");
-        alert("Login successful ✅");
-        window.location.href = "index.html";
-      } catch (error) {
-        console.error("SIGNIN ERROR:", error);
-        alert(error.message);
-      }
-    });
-  }
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      localStorage.setItem("greenCentreLoggedIn", "true");
+      alert("Login successful ✅");
+      window.location.href = "index.html";
+    } catch (error) {
+      alert(error.message);
+      console.log(error);
+    }
+  });
+}
 });
