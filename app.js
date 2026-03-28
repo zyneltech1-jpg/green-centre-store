@@ -2,6 +2,14 @@
    GREEN CENTRE APP.JS
 ========================= */
 
+import { auth, db } from "./firebase.js"
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 /* =========================
    PRODUCTS
 ========================= */
@@ -231,12 +239,38 @@ function isLoggedIn() {
   return localStorage.getItem("greenCentreLoggedIn") === "true";
 }
 
-function getCart() {
-  return JSON.parse(localStorage.getItem("greenCentreCart")) || [];
+async function getCart() {
+    const user = auth.currentUser;
+    if (!user) return [];
+
+    try {
+        const cartRef = doc(db, "carts", user.uid);
+        const cartSnap = await getDoc(cartRef);
+
+        if (cartSnap.exists()) {
+            return cartSnap.data().items || [];
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.log("Error getting cart:", error);
+        return [];
+    }
 }
 
-function saveCart(cart) {
-  localStorage.setItem("greenCentreCart", JSON.stringify(cart));
+async function saveCart(cart) {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+        const cartRef = doc(db, "carts", user.uid);
+        await setDoc(cartRef, {
+            userId: user.uid,
+            items: cart
+        });
+    } catch (error) {
+        console.log("Error saving cart:", error);
+    }
 }
 
 function getWishlist() {
@@ -289,13 +323,14 @@ function protectPages() {
 /* =========================
    CART BADGE
 ========================= */
-function updateCartBadge() {
-  const totalItems = getCart().reduce((sum, item) => sum + item.quantity, 0);
-  const badges = document.querySelectorAll("#cartBadge");
+async function updateCartBadge() {
+    const cart = await getCart();
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const badges = document.querySelectorAll("#cartBadge");
 
-  badges.forEach(badge => {
-    badge.textContent = totalItems;
-  });
+    badges.forEach(badge => {
+        badge.textContent = totalItems;
+    });
 }
 
 /* =========================
@@ -496,101 +531,113 @@ function renderProductDetails() {
 /* =========================
    CART
 ========================= */
-function addToCart(id) {
-  const cart = getCart();
-  const existing = cart.find(item => item.id === id);
+async function addToCart(id) {
+    const cart = await getCart();
+    const existing = cart.find(item => item.id === id);
 
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    const product = products.find(item => item.id === id);
-    if (!product) return;
-    cart.push({ ...product, quantity: 1 });
-  }
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        const product = products.find(item => item.id === id);
+        if (!product) return;
 
-  saveCart(cart);
-  updateCartBadge();
-  alert("Product added to cart.");
+        cart.push({
+            ...product,
+            quantity: 1
+        });
+    }
+
+    await saveCart(cart);
+    await updateCartBadge();
+    alert("Product added to cart.");
 }
 
-function renderCart() {
-  const wrap = document.getElementById("cartItems");
-  const subtotalEl = document.getElementById("subtotal");
-  const totalEl = document.getElementById("total");
-  const summaryWrap = document.getElementById("cartSummaryWrap");
+async function renderCart() {
+    const wrap = document.getElementById("cartItems");
+    const subtotalEl = document.getElementById("subtotal");
+    const totalEl = document.getElementById("total");
+    const summaryWrap = document.getElementById("cartSummaryWrap");
 
-  if (!wrap) return;
+    if (!wrap) return;
 
-  const cart = getCart();
+    const cart = await getCart();
 
-  if (!cart.length) {
-    wrap.innerHTML = `
-      <div class="empty-state">
-        <h3>Your cart is empty!</h3>
-        <p>Browse products and add what you want to buy.</p>
-        <a href="index.html" class="primary-btn">Start Shopping</a>
-      </div>
-    `;
-    if (summaryWrap) summaryWrap.style.display = "none";
-    return;
-  }
+    if (!cart.length) {
+        wrap.innerHTML = `
+            <div class="empty-state">
+                <h3>Your cart is empty!</h3>
+                <p>Browse products and add what you want to buy.</p>
+                <a href="index.html" class="primary-btn">Start Shopping</a>
+            </div>
+        `;
+        if (summaryWrap) summaryWrap.style.display = "none";
+        return;
+    }
 
-  if (summaryWrap) summaryWrap.style.display = "block";
+    if (summaryWrap) summaryWrap.style.display = "block";
 
-  let subtotal = 0;
+    let subtotal = 0;
 
-  wrap.innerHTML = cart.map(item => {
-    subtotal += item.price * item.quantity;
+    wrap.innerHTML = cart.map(item => {
+        subtotal += item.price * item.quantity;
 
-    return `
-      <article class="cart-item">
-        <div class="cart-thumb">
-          <img src="${item.image}" alt="${item.name}">
-        </div>
-        <div class="cart-info">
-          <h4>${item.name}</h4>
-          <p>${item.category}</p>
-          <div class="cart-price">${formatPrice(item.price)}</div>
-          <div class="qty-row">
-            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
-            <strong>${item.quantity}</strong>
-            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
-            <button class="remove-btn" onclick="removeItem(${item.id})">Remove</button>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
+        return `
+            <article class="cart-item">
+                <div class="cart-thumb">
+                    <img src="${item.image}" alt="${item.name}">
+                </div>
 
-  const delivery = 3000;
-  const total = subtotal + delivery;
+                <div class="cart-info">
+                    <h4>${item.name}</h4>
+                    <p>${item.category}</p>
+                    <div class="cart-price">${formatPrice(item.price)}</div>
 
-  if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
-  if (totalEl) totalEl.textContent = formatPrice(total);
+                    <div class="qty-row">
+                        <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                        <strong>${item.quantity}</strong>
+                        <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                        <button class="remove-btn" onclick="removeItem(${item.id})">Remove</button>
+                    </div>
+                </div>
+            </article>
+        `;
+    }).join("");
+
+    const delivery = 3000;
+    const total = subtotal + delivery;
+
+    if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
+    if (totalEl) totalEl.textContent = formatPrice(total);
 }
 
-function changeQty(id, change) {
-  const cart = getCart();
-  const item = cart.find(product => product.id === id);
-  if (!item) return;
+async function changeQty(id, change) {
+    const cart = await getCart();
+    const item = cart.find(product => product.id === id);
 
-  item.quantity += change;
+    if (!item) return;
 
-  if (item.quantity <= 0) {
-    saveCart(cart.filter(product => product.id !== id));
-  } else {
-    saveCart(cart);
-  }
+    item.quantity += change;
 
-  updateCartBadge();
-  renderCart();
+    let updatedCart;
+
+    if (item.quantity <= 0) {
+        updatedCart = cart.filter(product => product.id !== id);
+    } else {
+        updatedCart = cart;
+    }
+
+    await saveCart(updatedCart);
+    await updateCartBadge();
+    await renderCart();
 }
 
-function removeItem(id) {
-  const cart = getCart().filter(item => item.id !== id);
-  saveCart(cart);
-  updateCartBadge();
-  renderCart();
+async function removeItem(id) {
+    const cart = await getCart();
+    const updatedCart = cart.filter(item => item.id !== id);
+
+    await saveCart(updatedCart);
+    await updateCartBadge();
+    await renderCart();
 }
 
 /* =========================
@@ -892,3 +939,8 @@ document.addEventListener("DOMContentLoaded", function () {
   fillAccount();
   setupLogout();
 });
+
+window.addToCart = addToCart;
+window.changeQty = changeQty;
+window.removeItem = removeItem;
+window.openProduct = openProduct;
