@@ -241,37 +241,11 @@ function isLoggedIn() {
 }
 
 async function getCart() {
-    const user = auth.currentUser;
-    if (!user) return [];
-
-    try {
-        const cartRef = doc(db, "carts", user.uid);
-        const cartSnap = await getDoc(cartRef);
-
-        if (cartSnap.exists()) {
-            return cartSnap.data().items || [];
-        } else {
-            return [];
-        }
-    } catch (error) {
-        console.log("Error getting cart:", error);
-        return [];
-    }
+    return JSON.parse(localStorage.getItem("greenCentreCart")) || [];
 }
 
 async function saveCart(cart) {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    try {
-        const cartRef = doc(db, "carts", user.uid);
-        await setDoc(cartRef, {
-            userId: user.uid,
-            items: cart
-        });
-    } catch (error) {
-        console.log("Error saving cart:", error);
-    }
+    localStorage.setItem("greenCentreCart", JSON.stringify(cart));
 }
 
 function getWishlist() {
