@@ -9,7 +9,7 @@ import {
   setDoc,
   updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 /* =========================
    PRODUCTS
@@ -311,7 +311,7 @@ function protectPages() {
 
   const currentPage = document.body.dataset.page;
   
-  onAuthStateChange(auth, (user) => {
+  onAuthStateChanged(auth, (user) => {
     if (!user && protectedPages.includes(currentPage)) {
     window.location.href = "signin.html";
   }
