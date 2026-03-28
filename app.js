@@ -9,6 +9,7 @@ import {
   setDoc,
   updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 /* =========================
    PRODUCTS
@@ -296,9 +297,6 @@ function getLastOrder() {
 /* =========================
    PAGE PROTECTION
 ========================= */
-import { auth } from "./firebase.js";
-import { onAuthStateChange } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
 function protectPages() {
   const protectedPages = [
     "home",
@@ -895,8 +893,6 @@ function fillAccount() {
     userEmail.textContent = user.email;
   }
 }
-
-import { signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 function setupLogout() {
   const logoutBtn = document.getElementById("logoutBtn");
