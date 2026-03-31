@@ -741,9 +741,10 @@ function setupCheckoutForm() {
   const user = getUser();
 
   if (user) {
-    const fullName = document.getElementById("fullName");
-    const emailAddress = document.getElementById("emailAddress");
-    const phoneNumber = document.getElementById("phoneNumber");
+    const fullName = document.getElementById("fullName"). value.trim();
+    const emailAddress = document.getElementById("emailAddress").value.trim();
+    const phoneNumber = document.getElementById("phoneNumber").value.trim();
+    const address = document.getElementById("deliveryAddress").value.trim();
 
     if (fullName) fullName.value = `${user.firstName} ${user.lastName}`;
     if (emailAddress) emailAddress.value = user.email;

@@ -59,7 +59,6 @@ window.addEventListener("load", () => {
       );
       localStorage.setItem("greenCentreLoggedIn", "true");
 
-      alert("Account created successfully 🔥");
       window.location.href = "index.html";
     } catch (error) {
       alert(error.message);
