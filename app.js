@@ -303,7 +303,7 @@ function protectPages() {
 /* =========================
    CART BADGE
 ========================= */
-async function updateCartBadge() {
+function updateCartBadge() {
     const cart = await getCart();
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     const badges = document.querySelectorAll("#cartBadge");
