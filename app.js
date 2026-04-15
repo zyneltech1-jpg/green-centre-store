@@ -774,15 +774,14 @@ function renderOrderSuccess() {
 
   if (!dateEl || !paymentEl || !itemsEl || !totalEl) return;
 
-  const order = getLastOrder();
-
-  if (!order) {
-    dateEl.textContent = "-";
-    paymentEl.textContent = "-";
-    itemsEl.textContent = "0";
-    totalEl.textContent = "₦0";
-    return;
-  }
+  const order = {
+  id: "GC" + Date.now(),
+  date: new Date().toLocaleDateString(),
+  payment: paymentMethod,
+  items: cart,
+  total: total,
+  status: "Pending"
+};
 
   const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
   const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0) + 3000;
