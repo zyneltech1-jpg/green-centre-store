@@ -758,6 +758,7 @@ function setupCheckoutForm() {
 
     localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
     localStorage.removeItem("greenCentreCart");
+    localStorage.setItem("lastOrder", JSON.stringify(order));
 
     window.location.href = "order-success.html";
   });
@@ -783,6 +784,18 @@ function renderOrderSuccess() {
   status: "Pending"
 };
 
+if (page === "order-success") {
+  const order = JSON.parse(localStorage.getItem("lastOrder"));
+
+  if (order) {
+    document.getElementById("successDate").textContent = order.date;
+    document.getElementById("successPayment").textContent = order.payment;
+    document.getElementById("successItems").textContent = order.items.length;
+    document.getElementById("successTotal").textContent =
+      "₦" + order.total.toLocaleString();
+  }
+}
+
   const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
   const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0) + 3000;
 
@@ -790,6 +803,25 @@ function renderOrderSuccess() {
   paymentEl.textContent = order.paymentMethod;
   itemsEl.textContent = itemCount;
   totalEl.textContent = formatPrice(total);
+}
+
+function updateOrderStatus() {
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  orders = orders.map(order => {
+    if (order.status === "Pending") {
+      order.status = "Processing";
+    } else if (order.status === "Processing") {
+      order.status = "Delivered";
+    }
+    return order;
+  });
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+}
+
+if (page === "account") {
+  updateOrderStatus();
 }
 
 /* =========================
@@ -808,6 +840,14 @@ function renderOrderHistory() {
       </div>
     `;
     return;
+
+    <div class="order-item">
+  <h4>Order #${order.id}</h4>
+  <p>Date: ${order.date}</p>
+  <p>Status: <strong>${order.status}</strong></p>
+  <p>Payment: ${order.payment}</p>
+  <p class="order-total">₦${order.total.toLocaleString()}</p>
+ </div>
   }
 
   wrap.innerHTML = orders.map((order, index) => {
