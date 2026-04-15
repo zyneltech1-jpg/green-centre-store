@@ -774,14 +774,15 @@ function renderOrderSuccess() {
 
   if (!dateEl || !paymentEl || !itemsEl || !totalEl) return;
 
-  const order = {
-  id: "GC" + Date.now(),
-  date: new Date().toLocaleDateString(),
-  payment: paymentMethod,
-  items: cart,
-  total: total,
-  status: "Pending"
-};
+  const order = getLastOrder();
+
+  if (!order) {
+    dateEl.textContent = "-";
+    paymentEl.textContent = "-";
+    itemsEl.textContent = "0";
+    totalEl.textContent = "₦0";
+    return;
+  }
 
   const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
   const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0) + 3000;
@@ -790,25 +791,6 @@ function renderOrderSuccess() {
   paymentEl.textContent = order.paymentMethod;
   itemsEl.textContent = itemCount;
   totalEl.textContent = formatPrice(total);
-}
-
-function updateOrderStatus() {
-  let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-  orders = orders.map(order => {
-    if (order.status === "Pending") {
-      order.status = "Processing";
-    } else if (order.status === "Processing") {
-      order.status = "Delivered";
-    }
-    return order;
-  });
-
-  localStorage.setItem("orders", JSON.stringify(orders));
-}
-
-if (page === "account") {
-  updateOrderStatus();
 }
 
 /* =========================
