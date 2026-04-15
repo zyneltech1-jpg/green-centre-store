@@ -338,8 +338,8 @@ img {
 }
 
 .product-image-wrap {
-  width: 107%;
-  height: 300px;
+  width: 80%;
+  height: 100px;
   background: #f8fafb;
   border-radius: 14px;
   overflow: hidden;
