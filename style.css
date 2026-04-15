@@ -34,8 +34,8 @@ html {
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: #f4f6f8;
+  margin: 0;
 }
 
 a {
@@ -73,9 +73,9 @@ img {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--card);
-  border-bottom: 1px solid var(--line);
-  padding: 14px;
+  background: white;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
 }
 
 .top-row {
@@ -190,7 +190,7 @@ img {
    PAGE CONTENT
 ========================= */
 .page-content {
-  padding: 12px;
+  padding: 15px;
 }
 
 /* =========================
@@ -333,8 +333,26 @@ img {
   gap: 14px;
 }
 
+/* PRODUCT CARDS */
 .product-card {
+  background: white;
+  border-radius: 16px;
+  padding: 10px;
+  margin: 10px 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: 0.2s;
   cursor: pointer;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+.product-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
 .product-image-wrap {
@@ -842,10 +860,13 @@ img {
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 14px;
+  border-radius: 10px;
   padding: 14px 16px;
   font-weight: 700;
   cursor: pointer;
+  background: #00a651;
+  color: white;
+
 }
 
 .primary-btn {
@@ -970,4 +991,140 @@ img {
     bottom: 76px;
     padding-bottom: 10px;
   }
+}
+
+.order-card {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.order-card h3 {
+  margin-bottom: 5px;
+}
+
+.order-card p {
+  margin: 3px 0;
+  color: #555;
+}
+
+.order-card h4 {
+  color: green;
+  margin-top: 8px;
+}
+
+.inbox-form {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.inbox-form select,
+.inbox-form textarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.inbox-form button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.message-card {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.message-card p {
+  margin: 5px 0;
+}
+
+.review-form {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.review-form input,
+.review-form textarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.review-form button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.stars span {
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.review-card {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.rating {
+  color: gold;
+}
+
+.faq-container {
+  margin-top: 15px;
+}
+
+.faq {
+  background: white;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.question {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.answer {
+  display: none;
+  margin-top: 8px;
+  color: #555;
+}
+
+.live-popup {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: black;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  opacity: 0.9;
 }

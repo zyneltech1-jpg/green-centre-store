@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inbox</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-row">
+      <h2>Inbox</h2>
+      <a href="account.html">← Back</a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="page-content">
+
+    <!-- FORM -->
+    <div class="inbox-form">
+      <h3>Send a Message</h3>
+
+      <select id="messageType">
+        <option value="Complaint">Complaint</option>
+        <option value="Suggestion">Suggestion</option>
+        <option value="Inquiry">Inquiry</option>
+      </select>
+
+      <textarea id="messageText" placeholder="Type your message here..."></textarea>
+
+      <button onclick="sendMessage()">Send Message</button>
+    </div>
+
+    <!-- MESSAGE LIST -->
+    <div id="messageList"></div>
+
+  </main>
+
+  <!-- SCRIPT -->
+  <script>
+    function getMessages() {
+      return JSON.parse(localStorage.getItem("messages")) || [];
+    }
+
+    function saveMessages(messages) {
+      localStorage.setItem("messages", JSON.stringify(messages));
+    }
+
+    function sendMessage() {
+      const type = document.getElementById("messageType").value;
+      const text = document.getElementById("messageText").value;
+
+      if (!text.trim()) {
+        alert("Please enter a message");
+        return;
+      }
+
+      const messages = getMessages();
+
+      messages.unshift({
+        type,
+        text,
+        date: new Date().toISOString()
+      });
+
+      saveMessages(messages);
+
+      document.getElementById("messageText").value = "";
+
+      renderMessages();
+    }
+
+    function renderMessages() {
+      const container = document.getElementById("messageList");
+      const messages = getMessages();
+
+      if (!messages.length) {
+        container.innerHTML = "<p>No messages yet</p>";
+        return;
+      }
+
+      container.innerHTML = messages.map(msg => `
+        <div class="message-card">
+          <strong>${msg.type}</strong>
+          <p>${msg.text}</p>
+          <small>${new Date(msg.date).toLocaleString()}</small>
+        </div>
+      `).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", renderMessages);
+  </script>
+
+</body>
+</html>

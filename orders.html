@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Orders</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-row">
+      <h2>My Orders</h2>
+      <a href="account.html">← Back</a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="page-content">
+    <div id="orderHistoryList"></div>
+  </main>
+
+  <!-- SCRIPT -->
+  <script>
+    function getOrders() {
+      return JSON.parse(localStorage.getItem("orders")) || [];
+    }
+
+    function renderOrders() {
+      const container = document.getElementById("orderHistoryList");
+      if (!container) return;
+
+      const orders = getOrders();
+
+      if (!orders.length) {
+        container.innerHTML = "<p>No orders yet</p>";
+        return;
+      }
+
+      container.innerHTML = orders.map((order, index) => {
+        const itemCount = order.items.reduce((sum, item) => sum + item.qty, 0);
+
+        return `
+          <div class="order-card">
+            <h3>Order #${orders.length - index}</h3>
+            <p>${new Date(order.createdAt).toLocaleString()}</p>
+            <p>${itemCount} item(s)</p>
+            <p>Payment: ${order.paymentMethod}</p>
+            <h4>₦${order.total}</h4>
+          </div>
+        `;
+      }).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", renderOrders);
+  </script>
+
+</body>
+</html>

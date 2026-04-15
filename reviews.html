@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ratings & Reviews</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-row">
+      <h2>Ratings & Reviews</h2>
+      <a href="account.html">← Back</a>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="page-content">
+
+    <!-- ADD REVIEW -->
+    <div class="review-form">
+      <h3>Write a Review</h3>
+
+      <input type="text" id="productName" placeholder="Product name..." />
+
+      <!-- STAR RATING -->
+      <div class="stars" id="stars">
+        <span onclick="setRating(1)">⭐</span>
+        <span onclick="setRating(2)">⭐</span>
+        <span onclick="setRating(3)">⭐</span>
+        <span onclick="setRating(4)">⭐</span>
+        <span onclick="setRating(5)">⭐</span>
+      </div>
+
+      <textarea id="reviewText" placeholder="Write your experience..."></textarea>
+
+      <button onclick="submitReview()">Submit Review</button>
+    </div>
+
+    <!-- REVIEWS LIST -->
+    <div id="reviewsList"></div>
+
+  </main>
+
+  <!-- SCRIPT -->
+  <script>
+    let currentRating = 0;
+
+    function setRating(num) {
+      currentRating = num;
+
+      const stars = document.querySelectorAll("#stars span");
+      stars.forEach((star, index) => {
+        star.style.opacity = index < num ? "1" : "0.3";
+      });
+    }
+
+    function getReviews() {
+      return JSON.parse(localStorage.getItem("reviews")) || [];
+    }
+
+    function saveReviews(data) {
+      localStorage.setItem("reviews", JSON.stringify(data));
+    }
+
+    function submitReview() {
+      const product = document.getElementById("productName").value;
+      const text = document.getElementById("reviewText").value;
+
+      if (!product || !text || currentRating === 0) {
+        alert("Fill everything including rating");
+        return;
+      }
+
+      const reviews = getReviews();
+
+      reviews.unshift({
+        product,
+        text,
+        rating: currentRating,
+        date: new Date().toISOString()
+      });
+
+      saveReviews(reviews);
+
+      // clear
+      document.getElementById("productName").value = "";
+      document.getElementById("reviewText").value = "";
+      currentRating = 0;
+
+      document.querySelectorAll("#stars span").forEach(s => s.style.opacity = "1");
+
+      renderReviews();
+    }
+
+    function renderReviews() {
+      const container = document.getElementById("reviewsList");
+      const reviews = getReviews();
+
+      if (!reviews.length) {
+        container.innerHTML = "<p>No reviews yet</p>";
+        return;
+      }
+
+      container.innerHTML = reviews.map(r => `
+        <div class="review-card">
+          <h4>${r.product}</h4>
+          <div class="rating">${"⭐".repeat(r.rating)}</div>
+          <p>${r.text}</p>
+          <small>${new Date(r.date).toLocaleString()}</small>
+        </div>
+      `).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", renderReviews);
+  </script>
+
+</body>
+</html>

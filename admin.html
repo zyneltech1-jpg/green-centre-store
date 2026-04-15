@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Admin Dashboard</h2>
+
+<input id="productName" placeholder="Product Name">
+<input id="productPrice" placeholder="Price">
+<input id="productImage" placeholder="Image URL">
+
+<button onclick="addProduct()">Add Product</button>
+
+<div id="adminProducts"></div>
+
+<script>
+function getProducts() {
+  return JSON.parse(localStorage.getItem("products")) || [];
+}
+
+function saveProducts(data) {
+  localStorage.setItem("products", JSON.stringify(data));
+}
+
+function addProduct() {
+  const name = document.getElementById("productName").value;
+  const price = document.getElementById("productPrice").value;
+  const image = document.getElementById("productImage").value;
+
+  if (!name || !price) return alert("Fill all fields");
+
+  const products = getProducts();
+
+  products.push({
+    id: Date.now(),
+    name,
+    price,
+    image
+  });
+
+  saveProducts(products);
+  renderAdminProducts();
+}
+
+function renderAdminProducts() {
+  const container = document.getElementById("adminProducts");
+  const products = getProducts();
+
+  container.innerHTML = products.map(p => `
+    <div class="product-card">
+      <h4>${p.name}</h4>
+      <p>₦${p.price}</p>
+    </div>
+  `).join("");
+}
+
+renderAdminProducts();
+</script>
+
+</body>
+</html>

@@ -811,6 +811,10 @@ function renderOrderHistory() {
     return;
   }
 
+  function goToOrders() {
+    window.location.href = "orders.html";
+  }
+
   wrap.innerHTML = orders.map((order, index) => {
     const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
     const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0) + 3000;
@@ -853,6 +857,24 @@ function setupLogout() {
     window.location.href = "welcome.html";
   });
 }
+
+const fakeNames = ["John", "Mary", "David", "Aisha", "Daniel"];
+
+function showFakeActivity() {
+  const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+
+  const popup = document.createElement("div");
+  popup.className = "live-popup";
+  popup.innerText = name + " just placed an order";
+
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    popup.remove();
+  }, 3000);
+}
+
+setInterval(showFakeActivity, 8000);
 
 /* =========================
    DOM READY
