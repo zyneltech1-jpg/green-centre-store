@@ -226,19 +226,8 @@ const products = [
 ];
 
 /* =========================
-   HELPERS
+   STORAGE HELPERS
 ========================= */
-function formatPrice(amount) {
-  return `₦${amount.toLocaleString()}`;
-}
-
-function getUser() {
-  return JSON.parse(localStorage.getItem("greenCentreUser")) || null;
-}
-
-function isLoggedIn() {
-  return localStorage.getItem("greenCentreLoggedIn") === "true";
-}
 
 function getCart() {
     return JSON.parse(localStorage.getItem("greenCentreCart")) || [];
@@ -249,312 +238,133 @@ function saveCart(cart) {
 }
 
 function getWishlist() {
-  return JSON.parse(localStorage.getItem("greenCentreWishlist")) || [];
+    return JSON.parse(localStorage.getItem("greenCentreWishlist")) || [];
 }
 
 function saveWishlist(wishlist) {
-  localStorage.setItem("greenCentreWishlist", JSON.stringify(wishlist));
+    localStorage.setItem("greenCentreWishlist", JSON.stringify(wishlist));
 }
 
 function getOrders() {
-  return JSON.parse(localStorage.getItem("greenCentreOrders")) || [];
-}
-
-function getCart() {
-  return JSON.parse(localStorage.getItem("greenCentreCart")) || [];
+    return JSON.parse(localStorage.getItem("greenCentreOrders")) || [];
 }
 
 function saveOrders(orders) {
-  localStorage.setItem("greenCentreOrders", JSON.stringify(orders));
+    localStorage.setItem("greenCentreOrders", JSON.stringify(orders));
 }
 
 function getLastOrder() {
-  return JSON.parse(localStorage.getItem("greenCentreLastPlacedOrder")) || null;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadCheckoutItems();
-});
-
-/* =========================
-   PAGE PROTECTION
-========================= */
-function protectPages() {
-  const protectedPages = [
-    "home",
-    "categories",
-    "cart",
-    "checkout",
-    "wishlist",
-    "account",
-    "product-details",
-    "order-success"
-  ];
-
-  const currentPage = document.body.dataset.page;
-  
-  onAuthStateChanged(auth, (user) => {
-    if (!user && protectedPages.includes(currentPage)) {
-    window.location.href = "signin.html";
-  }
-  });
+    return JSON.parse(localStorage.getItem("greenCentreLastPlacedOrder"));
 }
 
 /* =========================
-   CART BADGE
+   UTILITIES
 ========================= */
-function updateCartBadge() {
-    const cart = await getCart();
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const badges = document.querySelectorAll("#cartBadge");
 
-    badges.forEach(badge => {
-        badge.textContent = totalItems;
-    });
+function formatPrice(price) {
+    return "₦" + price.toLocaleString();
 }
+
+/* =========================
+   PRODUCTS (keep yours)
+========================= */
+
+const products = window.products || [];
 
 /* =========================
    PRODUCT GRID
 ========================= */
-function renderProductGrid(targetId, items) {
-  const container = document.getElementById(targetId);
-  if (!container) return;
 
-  if (!items.length) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <p>No products found.</p>
-      </div>
-    `;
-    return;
-  }
+function renderProductGrid(containerId, items) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
 
-  container.innerHTML = items.map(product => `
-    <article class="product-card" onclick="openProduct(${product.id})">
-      <div class="product-image-wrap">
-        <img src="${product.image}" alt="${product.name}">
-      </div>
-      <h3 class="product-name">${product.name}</h3>
-      <p class="product-price">${formatPrice(product.price)}</p>
-    </article>
-  `).join("");
-}
-
-/* =========================
-   HOME SECTIONS
-========================= */
-function renderHomeSections() {
-  const featured = products.slice(0, 6);
-  const herbal = products.filter(p => p.category === "Herbal Products").slice(0, 4);
-  const supplements = products.filter(p => p.category === "Supplements").slice(0, 4);
-  const liquid = products.filter(p => p.category === "Liquid Supplements").slice(0, 4);
-
-  renderProductGrid("featuredProducts", featured);
-  renderProductGrid("herbalProducts", herbal);
-  renderProductGrid("supplementProducts", supplements);
-  renderProductGrid("liquidProducts", liquid);
-}
-
-/* =========================
-   SEARCH
-========================= */
-function setupHomeSearch() {
-  const homeSearch = document.getElementById("homeSearch");
-  if (!homeSearch) return;
-
-  homeSearch.addEventListener("input", function () {
-    const value = this.value.toLowerCase().trim();
-
-    if (!value) {
-      renderHomeSections();
-      return;
+    if (!items.length) {
+        container.innerHTML = "<p>No products found</p>";
+        return;
     }
 
-    const filtered = products.filter(product =>
-      product.name.toLowerCase().includes(value) ||
-      product.category.toLowerCase().includes(value) ||
-      product.description.toLowerCase().includes(value)
-    );
-
-    renderProductGrid("featuredProducts", filtered);
-    renderProductGrid("herbalProducts", []);
-    renderProductGrid("supplementProducts", []);
-    renderProductGrid("liquidProducts", []);
-  });
-}
-
-function setupCategorySearch() {
-  const categorySearch = document.getElementById("categorySearch");
-  if (!categorySearch) return;
-
-  categorySearch.addEventListener("input", function () {
-    const searchValue = this.value.toLowerCase().trim();
-    const activePill = document.querySelector(".category-pill.active");
-    const activeCategory = activePill ? activePill.dataset.category : "All";
-
-    let filtered = products;
-
-    if (activeCategory !== "All") {
-      filtered = filtered.filter(product => product.category === activeCategory);
-    }
-
-    filtered = filtered.filter(product =>
-      product.name.toLowerCase().includes(searchValue) ||
-      product.category.toLowerCase().includes(searchValue) ||
-      product.description.toLowerCase().includes(searchValue)
-    );
-
-    renderProductGrid("categoryProducts", filtered);
-  });
+    container.innerHTML = items.map(product => `
+        <div class="product-card" onclick="openProduct(${product.id})">
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.category}</p>
+            <strong>${formatPrice(product.price)}</strong>
+        </div>
+    `).join("");
 }
 
 /* =========================
-   CATEGORY FILTER
+   PRODUCT DETAILS
 ========================= */
-function setSelectedCategory(category) {
-  localStorage.setItem("greenCentreSelectedCategory", category);
-}
 
-function setupCategoryFilter() {
-  const pills = document.querySelectorAll(".category-pill");
-  const categorySearch = document.getElementById("categorySearch");
-  const categoryContainer = document.getElementById("categoryProducts");
-
-  if (!pills.length || !categoryContainer) return;
-
-  function applyCategoryFilter(selectedCategory) {
-    const searchValue = categorySearch ? categorySearch.value.toLowerCase().trim() : "";
-
-    pills.forEach(pill => {
-      pill.classList.toggle("active", pill.dataset.category === selectedCategory);
-    });
-
-    let filtered = products;
-
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter(product => product.category === selectedCategory);
-    }
-
-    filtered = filtered.filter(product =>
-      product.name.toLowerCase().includes(searchValue) ||
-      product.category.toLowerCase().includes(searchValue) ||
-      product.description.toLowerCase().includes(searchValue)
-    );
-
-    renderProductGrid("categoryProducts", filtered);
-  }
-
-  pills.forEach(pill => {
-    pill.addEventListener("click", function () {
-      const selectedCategory = this.dataset.category;
-      setSelectedCategory(selectedCategory);
-      applyCategoryFilter(selectedCategory);
-    });
-  });
-
-  const savedCategory = localStorage.getItem("greenCentreSelectedCategory") || "All";
-  applyCategoryFilter(savedCategory);
-}
-
-/* =========================
-   PRODUCT DETAILS PAGE
-========================= */
 function setSelectedProduct(id) {
-  localStorage.setItem("greenCentreSelectedProduct", String(id));
+    localStorage.setItem("greenCentreSelectedProduct", id);
 }
 
 function openProduct(id) {
-  setSelectedProduct(id);
-  window.location.href = "product-details.html";
+    setSelectedProduct(id);
+    window.location.href = "product-details.html";
 }
 
 function renderProductDetails() {
-  const imageEl = document.getElementById("detailsImage");
-  const categoryEl = document.getElementById("detailsCategory");
-  const nameEl = document.getElementById("detailsName");
-  const priceEl = document.getElementById("detailsPrice");
-  const descEl = document.getElementById("detailsDescription");
-  const cartBtn = document.getElementById("detailsCartBtn");
-  const wishBtn = document.getElementById("detailsWishlistBtn");
+    const id = Number(localStorage.getItem("greenCentreSelectedProduct"));
+    const product = products.find(p => p.id === id);
 
-  if (!imageEl || !categoryEl || !nameEl || !priceEl || !descEl) return;
+    if (!product) return;
 
-  const selectedId = Number(localStorage.getItem("greenCentreSelectedProduct"));
-  const product = products.find(item => item.id === selectedId);
+    document.getElementById("detailsImage").src = product.image;
+    document.getElementById("detailsName").textContent = product.name;
+    document.getElementById("detailsCategory").textContent = product.category;
+    document.getElementById("detailsPrice").textContent = formatPrice(product.price);
+    document.getElementById("detailsDescription").textContent = product.description;
 
-  if (!product) {
-    nameEl.textContent = "Product not found";
-    descEl.textContent = "The selected product could not be loaded.";
-    return;
-  }
-
-  imageEl.src = product.image;
-  imageEl.alt = product.name;
-  categoryEl.textContent = product.category;
-  nameEl.textContent = product.name;
-  priceEl.textContent = formatPrice(product.price);
-  descEl.textContent = product.description;
-
-  if (cartBtn) {
-    cartBtn.onclick = function () {
-      addToCart(product.id);
-    };
-  }
-
-  if (wishBtn) {
-    wishBtn.onclick = function () {
-      addToWishlist(product.id);
-    };
-  }
+    document.getElementById("detailsCartBtn").onclick = () => addToCart(product.id);
+    document.getElementById("detailsWishlistBtn").onclick = () => addToWishlist(product.id);
 }
 
 /* =========================
    CART
 ========================= */
-async function addToCart(id) {
-    const cart = await getCart();
+
+function addToCart(id) {
+    const cart = getCart();
     const existing = cart.find(item => item.id === id);
 
     if (existing) {
-        existing.quantity += 1;
+        existing.quantity++;
     } else {
-        const product = products.find(item => item.id === id);
+        const product = products.find(p => p.id === id);
         if (!product) return;
 
-        cart.push({
-            ...product,
-            quantity: 1
-        });
+        cart.push({ ...product, quantity: 1 });
     }
 
-    await saveCart(cart);
-    await updateCartBadge();
-    alert("Product added to cart.");
+    saveCart(cart);
+    updateCartBadge();
+    alert("Added to cart");
 }
 
-async function renderCart() {
-    const wrap = document.getElementById("cartItems");
-    const subtotalEl = document.getElementById("subtotal");
-    const totalEl = document.getElementById("total");
-    const summaryWrap = document.getElementById("cartSummaryWrap");
+function updateCartBadge() {
+    const badge = document.getElementById("cartBadge");
+    if (!badge) return;
 
+    const cart = getCart();
+    const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    badge.textContent = total;
+}
+
+function renderCart() {
+    const wrap = document.getElementById("cartItems");
     if (!wrap) return;
 
-    const cart = await getCart();
+    const cart = getCart();
 
     if (!cart.length) {
-        wrap.innerHTML = `
-            <div class="empty-state">
-                <h3>Your cart is empty!</h3>
-                <p>Browse products and add what you want to buy.</p>
-                <a href="index.html" class="primary-btn">Start Shopping</a>
-            </div>
-        `;
-        if (summaryWrap) summaryWrap.style.display = "none";
+        wrap.innerHTML = "<p>Your cart is empty</p>";
         return;
     }
-
-    if (summaryWrap) summaryWrap.style.display = "block";
 
     let subtotal = 0;
 
@@ -562,392 +372,182 @@ async function renderCart() {
         subtotal += item.price * item.quantity;
 
         return `
-            <article class="cart-item">
-                <div class="cart-thumb">
-                    <img src="${item.image}" alt="${item.name}">
-                </div>
-
-                <div class="cart-info">
-                    <h4>${item.name}</h4>
-                    <p>${item.category}</p>
-                    <div class="cart-price">${formatPrice(item.price)}</div>
-
-                    <div class="qty-row">
-                        <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
-                        <strong>${item.quantity}</strong>
-                        <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
-                        <button class="remove-btn" onclick="removeItem(${item.id})">Remove</button>
-                    </div>
-                </div>
-            </article>
+            <div>
+                <h4>${item.name}</h4>
+                <p>${formatPrice(item.price)}</p>
+                <button onclick="changeQty(${item.id}, -1)">-</button>
+                ${item.quantity}
+                <button onclick="changeQty(${item.id}, 1)">+</button>
+                <button onclick="removeItem(${item.id})">Remove</button>
+            </div>
         `;
     }).join("");
 
-    const delivery = 3000;
-    const total = subtotal + delivery;
-
-    if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
-    if (totalEl) totalEl.textContent = formatPrice(total);
+    document.getElementById("subtotal").textContent = formatPrice(subtotal);
+    document.getElementById("total").textContent = formatPrice(subtotal + 3000);
 }
 
-async function changeQty(id, change) {
-    const cart = await getCart();
-    const item = cart.find(product => product.id === id);
-
+function changeQty(id, change) {
+    const cart = getCart();
+    const item = cart.find(i => i.id === id);
     if (!item) return;
 
     item.quantity += change;
 
-    let updatedCart;
-
     if (item.quantity <= 0) {
-        updatedCart = cart.filter(product => product.id !== id);
-    } else {
-        updatedCart = cart;
+        removeItem(id);
+        return;
     }
 
-    await saveCart(updatedCart);
-    await updateCartBadge();
-    await renderCart();
+    saveCart(cart);
+    renderCart();
+    updateCartBadge();
 }
 
-async function removeItem(id) {
-    const cart = await getCart();
-    const updatedCart = cart.filter(item => item.id !== id);
+function removeItem(id) {
+    let cart = getCart();
+    cart = cart.filter(item => item.id !== id);
 
-    await saveCart(updatedCart);
-    await updateCartBadge();
-    await renderCart();
+    saveCart(cart);
+    renderCart();
+    updateCartBadge();
 }
 
 /* =========================
    WISHLIST
 ========================= */
+
 function addToWishlist(id) {
-  const wishlist = getWishlist();
-  const existing = wishlist.find(item => item.id === id);
+    const wishlist = getWishlist();
+    if (wishlist.find(i => i.id === id)) return;
 
-  if (existing) {
-    alert("Product already in wishlist.");
-    return;
-  }
+    const product = products.find(p => p.id === id);
+    if (!product) return;
 
-  const product = products.find(item => item.id === id);
-  if (!product) return;
+    wishlist.push(product);
+    saveWishlist(wishlist);
 
-  wishlist.push(product);
-  saveWishlist(wishlist);
-  alert("Product added to wishlist.");
+    alert("Added to wishlist");
 }
 
 function renderWishlist() {
-  const wrap = document.getElementById("wishlistItems");
-  if (!wrap) return;
+    const wrap = document.getElementById("wishlistItems");
+    if (!wrap) return;
 
-  const wishlist = getWishlist();
+    const wishlist = getWishlist();
 
-  if (!wishlist.length) {
-    wrap.innerHTML = `
-      <div class="empty-state">
-        <h3>Your wishlist is empty</h3>
-        <p>Save products you may want to buy later.</p>
-        <a href="index.html" class="primary-btn">Browse Products</a>
-      </div>
-    `;
-    return;
-  }
+    if (!wishlist.length) {
+        wrap.innerHTML = "<p>Wishlist is empty</p>";
+        return;
+    }
 
-  wrap.innerHTML = wishlist.map(item => `
-    <div class="wishlist-item">
-      <div class="wishlist-card">
-        <div class="wishlist-thumb">
-          <img src="${item.image}" alt="${item.name}">
+    wrap.innerHTML = wishlist.map(item => `
+        <div>
+            <h4>${item.name}</h4>
+            <button onclick="addToCart(${item.id})">Add to Cart</button>
+            <button onclick="removeFromWishlist(${item.id})">Remove</button>
         </div>
-        <div class="wishlist-info">
-          <h4>${item.name}</h4>
-          <p>${item.category}</p>
-          <div class="cart-price">${formatPrice(item.price)}</div>
-          <div class="wishlist-actions">
-            <button class="small-btn small-green-btn" onclick="moveWishlistToCart(${item.id})">Add to Cart</button>
-            <button class="small-btn small-light-btn" onclick="removeFromWishlist(${item.id})">Remove</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `).join("");
+    `).join("");
 }
 
 function removeFromWishlist(id) {
-  const wishlist = getWishlist().filter(item => item.id !== id);
-  saveWishlist(wishlist);
-  renderWishlist();
-}
-
-function moveWishlistToCart(id) {
-  addToCart(id);
-  removeFromWishlist(id);
+    let wishlist = getWishlist();
+    wishlist = wishlist.filter(i => i.id !== id);
+    saveWishlist(wishlist);
+    renderWishlist();
 }
 
 /* =========================
    CHECKOUT
 ========================= */
+
 function renderCheckout() {
-  const wrap = document.getElementById("checkoutItems");
-  const subtotalEl = document.getElementById("checkoutSubtotal");
-  const totalEl = document.getElementById("checkoutTotal");
-  const summaryWrap = document.getElementById("checkoutSummaryWrap");
-
-  if (!wrap) return;
-
-  const cart = getCart();
-
-  if (!cart.length) {
-    wrap.innerHTML = `
-      <div class="empty-state">
-        <h3>No items to checkout</h3>
-        <p>Add products to your cart before checking out.</p>
-        <a href="index.html" class="primary-btn">Start Shopping</a>
-      </div>
-    `;
-    if (subtotalEl) subtotalEl.textContent = "₦0";
-    if (totalEl) totalEl.textContent = "₦0";
-    if (summaryWrap) summaryWrap.style.display = "block";
-    return;
-  }
-
-  let subtotal = 0;
-
-  wrap.innerHTML = cart.map(item => {
-    subtotal += item.price * item.quantity;
-
-    return `
-      <article class="checkout-item">
-        <div class="checkout-thumb">
-          <img src="${item.image}" alt="${item.name}">
-        </div>
-        <div class="checkout-info">
-          <h4>${item.name}</h4>
-          <p>${item.category}</p>
-          <p>Qty: ${item.quantity}</p>
-          <strong>${formatPrice(item.price * item.quantity)}</strong>
-        </div>
-      </article>
-    `;
-  }).join("");
-
-  const delivery = 3000;
-  const total = subtotal + delivery;
-
-  if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
-  if (totalEl) totalEl.textContent = formatPrice(total);
-}
-
-function setupCheckoutForm() {
-  const form = document.getElementById("checkoutForm");
-  if (!form) return;
-
-  const user = getUser();
-
-  if (user) {
-    const fullName = document.getElementById("fullName"). value.trim();
-    const emailAddress = document.getElementById("emailAddress").value.trim();
-    const phoneNumber = document.getElementById("phoneNumber").value.trim();
-    const address = document.getElementById("deliveryAddress").value.trim();
-
-    if (fullName) fullName.value = `${user.firstName} ${user.lastName}`;
-    if (emailAddress) emailAddress.value = user.email;
-    if (phoneNumber) phoneNumber.value = user.phone || "";
-  }
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+    const wrap = document.getElementById("checkoutItems");
+    if (!wrap) return;
 
     const cart = getCart();
+
     if (!cart.length) {
-      alert("Your cart is empty.");
-      return;
+        wrap.innerHTML = "<p>No items</p>";
+        return;
     }
 
-    const paymentMethod =
-      document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
+    let subtotal = 0;
 
-    const order = {
-      customer: {
-        fullName: document.getElementById("fullName").value.trim(),
-        email: document.getElementById("emailAddress").value.trim(),
-        phone: document.getElementById("phoneNumber").value.trim(),
-        address: document.getElementById("deliveryAddress").value.trim(),
-        city: document.getElementById("city").value.trim(),
-        state: document.getElementById("state").value.trim()
-      },
-      paymentMethod,
-      items: cart,
-      createdAt: new Date().toISOString()
-    };
+    wrap.innerHTML = cart.map(item => {
+        subtotal += item.price * item.quantity;
 
-    const existingOrders = getOrders();
-    existingOrders.unshift(order);
-    saveOrders(existingOrders);
+        return `<p>${item.name} x ${item.quantity}</p>`;
+    }).join("");
 
-    localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
-    localStorage.removeItem("greenCentreCart");
-
-    window.location.href = "order-success.html";
-  });
-}
-
-function loadCheckoutItems() {
-  const cart = getCart();
-  const container = document.getElementById("checkoutItems");
-
-  if (!cart.length) {
-    container.innerHTML = "<p>No items to checkout</p>";
-    return;
-  }
-
-  let subtotal = 0;
-
-  container.innerHTML = cart.map(item => {
-    subtotal += item.price * item.quantity;
-
-    return `
-      <div class="checkout-item">
-        <p>${item.name}</p>
-        <p>₦${item.price} x ${item.quantity}</p>
-      </div>
-    `;
-  }).join("");
-
-  document.getElementById("checkoutSubtotal").textContent = "₦" + subtotal;
-
-  const total = subtotal + 3000;
-  document.getElementById("checkoutTotal").textContent = "₦" + total;
+    document.getElementById("checkoutSubtotal").textContent = "₦" + subtotal;
+    document.getElementById("checkoutTotal").textContent = "₦" + (subtotal + 3000);
 }
 
 /* =========================
-   ORDER SUCCESS
+   ORDER
 ========================= */
+
+function setupCheckoutForm() {
+    const form = document.getElementById("checkoutForm");
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const cart = getCart();
+        if (!cart.length) return alert("Cart is empty");
+
+        const order = {
+            items: cart,
+            createdAt: new Date().toISOString()
+        };
+
+        const orders = getOrders();
+        orders.unshift(order);
+        saveOrders(orders);
+
+        localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
+        localStorage.removeItem("greenCentreCart");
+
+        window.location.href = "order-success.html";
+    });
+}
+
 function renderOrderSuccess() {
-  const dateEl = document.getElementById("successDate");
-  const paymentEl = document.getElementById("successPayment");
-  const itemsEl = document.getElementById("successItems");
-  const totalEl = document.getElementById("successTotal");
+    const order = getLastOrder();
+    if (!order) return;
 
-  if (!dateEl || !paymentEl || !itemsEl || !totalEl) return;
+    const total = order.items.reduce((sum, item) =>
+        sum + item.price * item.quantity, 0
+    ) + 3000;
 
-  const order = getLastOrder();
-
-  if (!order) {
-    dateEl.textContent = "-";
-    paymentEl.textContent = "-";
-    itemsEl.textContent = "0";
-    totalEl.textContent = "₦0";
-    return;
-  }
-
-  const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
-  const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0) + 3000;
-
-  dateEl.textContent = new Date(order.createdAt).toLocaleString();
-  paymentEl.textContent = order.paymentMethod;
-  itemsEl.textContent = itemCount;
-  totalEl.textContent = formatPrice(total);
+    document.getElementById("successTotal").textContent = formatPrice(total);
 }
 
 /* =========================
-   ORDER HISTORY
+   INIT
 ========================= */
-function renderOrderHistory() {
-  const wrap = document.getElementById("orderHistoryList");
-  if (!wrap) return;
 
-  const orders = getOrders();
-
-  if (!orders.length) {
-    wrap.innerHTML = `
-      <div class="empty-state">
-        <p>No orders yet.</p>
-      </div>
-    `;
-    return;
-  }
-
-  wrap.innerHTML = orders.map((order, index) => {
-    const itemCount = order.items.reduce((sum, item) => sum + item.quantity, 0);
-    const total = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0) + 3000;
-
-    return `
-      <div class="order-item">
-        <h4>Order #${orders.length - index}</h4>
-        <p>${new Date(order.createdAt).toLocaleString()}</p>
-        <p>${itemCount} item(s)</p>
-        <p>Payment: ${order.paymentMethod}</p>
-        <div class="order-total">${formatPrice(total)}</div>
-      </div>
-    `;
-  }).join("");
-}
-
-/* =========================
-   ACCOUNT
-========================= */
-function fillAccount() {
-  const user = getUser();
-  const userName = document.getElementById("userName");
-  const userEmail = document.getElementById("userEmail");
-
-  if (user && userName) {
-    userName.textContent = `Welcome ${user.firstName} ${user.lastName}!`;
-  }
-
-  if (user && userEmail) {
-    userEmail.textContent = user.email;
-  }
-}
-
-function setupLogout() {
-  const logoutBtn = document.getElementById("logoutBtn");
-  if (!logoutBtn) return;
-
-  logoutBtn.addEventListener("click", async function () {
-    try {
-      await signOut(auth);
-      localStorage.removeItem("greenCentreLoggedIn");
-      window.location.href = "signin.html";
-    } catch (error) {
-      alert(error.message);
-      console.log(error);
-    }
-  });
-}
-
-/* =========================
-   DOM READY
-========================= */
 document.addEventListener("DOMContentLoaded", function () {
-  protectPages();
-  updateCartBadge();
+    updateCartBadge();
 
-  renderHomeSections();
-  renderProductGrid("categoryProducts", products);
+    renderProductGrid("categoryProducts", products);
+    renderProductDetails();
+    renderCart();
+    renderWishlist();
+    renderCheckout();
+    renderOrderSuccess();
 
-  setupHomeSearch();
-  setupCategoryFilter();
-  setupCategorySearch();
-
-  renderProductDetails();
-  renderCart();
-  renderWishlist();
-  renderCheckout();
-  renderOrderHistory();
-  renderOrderSuccess();
-
-  setupCheckoutForm();
-  fillAccount();
-  setupLogout();
+    setupCheckoutForm();
 });
+
+/* =========================
+   GLOBAL FUNCTIONS
+========================= */
 
 window.addToCart = addToCart;
 window.changeQty = changeQty;
 window.removeItem = removeItem;
 window.openProduct = openProduct;
+window.removeFromWishlist = removeFromWishlist;
