@@ -59,7 +59,7 @@
 
       <section class="section-card form-card">
         <div class="section-head no-link">
-          <h2>Select Payment Method</h2>
+          <h2>Payment Method</h2>
         </div>
 
         <div class="payment-box checkout-payment">
@@ -89,7 +89,7 @@
 
         <div class="summary-row">
           <span>Delivery Fee</span>
-          <strong id="checkoutDelivery">₦3,000</strong>
+          <strong>₦3,000</strong>
         </div>
 
         <div class="summary-row total-row">
@@ -100,11 +100,6 @@
         <button type="submit" form="checkoutForm" class="primary-btn full-btn">Place Order</button>
       </section>
     </main>
-
-    <span id="checkoutSubtotal"></span>
-<span id="checkoutDelivery"></span>
-<span id="checkoutTotal"></span>
-<div id="checkoutItems"></div>
 
     <nav class="bottom-nav">
       <a href="index.html" class="nav-item">
@@ -126,18 +121,6 @@
     </nav>
   </div>
 
-  <script type="module" src="app.js"></script>
-
-    <script type="module">
-    import { auth } from "./firebase.js";
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "signin.html";
-      }
-    });
-  </script>
-  
+  <script src="app.js"></script>
 </body>
 </html>
