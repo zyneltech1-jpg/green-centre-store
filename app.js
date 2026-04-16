@@ -505,7 +505,7 @@ function addToCart(id) {
 
   saveCart(cart);
   updateCartBadge();
-  alert("Product added to cart.");
+  showToast("Product Added to cart ✅");
 }
 
 function renderCart() {
@@ -875,6 +875,18 @@ function showFakeActivity() {
 }
 
 setInterval(showFakeActivity, 8000);
+
+function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = message;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 2500);
+}
 
 /* =========================
    DOM READY

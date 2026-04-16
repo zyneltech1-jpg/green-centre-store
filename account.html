@@ -31,16 +31,16 @@
       <section class="section-card">
         <h3 class="sub-heading">Need Assistance?</h3>
         <div class="menu-list">
-          <a href="#" class="menu-item"><span>Help & Support</span><span>›</span></a>
+          <a href="help.html" class="menu-item"><span>Help & Support</span><span>›</span></a>
         </div>
       </section>
 
       <section class="section-card">
         <h3 class="sub-heading">My Account</h3>
         <div class="menu-list">
-          <a href="#orderHistorySection" class="menu-item"><span>Orders</span><span>›</span></a>
-          <a href="#" class="menu-item"><span>Inbox</span><span>›</span></a>
-          <a href="#" class="menu-item"><span>Ratings & Reviews</span><span>›</span></a>
+          <a href="orders.html" class="menu-item"><span>Orders</span><span>›</span></a>
+          <a href="inbox.html" class="menu-item"><span>Inbox</span><span>›</span></a>
+          <a href="reviews.html" class="menu-item"><span>Ratings & Reviews</span><span>›</span></a>
           <a href="wishlist.html" class="menu-item"><span>Wishlist</span><span>›</span></a>
           <a href="#" class="menu-item"><span>Recently Viewed</span><span>›</span></a>
         </div>
@@ -48,11 +48,17 @@
 
       <section class="section-card" id="orderHistorySection">
         <h3 class="sub-heading">Order History</h3>
-        <div id="orderHistoryList"></div>
+        <div class="account-item" onclick="goToOrders()">
+          Orders >
+        </div>
       </section>
 
       <button id="logoutBtn" class="danger-btn full-btn">Logout</button>
     </main>
+
+    <div class="account-item" onclick="goToAdmin()">
+  Admin Panel >
+</div>
 
     <nav class="bottom-nav">
       <a href="index.html" class="nav-item">
