@@ -3,18 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#00a651">
   <title>Green Centre</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json">
 </head>
 <body data-page="home">
-  <div id="splashScreen">
-  <h1>Green Centre</h1>
-</div>
   <div class="app-shell">
     <header class="top-header">
       <div class="top-row">
@@ -64,23 +59,23 @@
 
         <div class="quick-item" onclick="setSelectedCategory('Herbal Products'); window.location.href='categories.html'">
           <div class="quick-thumb">🌿</div>
-          <span>Liquids</span>
+          <span>Herbal</span>
         </div>
 
         <div class="quick-item" onclick="setSelectedCategory('Liquid Supplements'); window.location.href='categories.html'">
           <div class="quick-thumb">🧃</div>
-          <span>Machines</span>
+          <span>Liquid</span>
         </div>
 
         <div class="quick-item" onclick="setSelectedCategory('Pain Relief'); window.location.href='categories.html'">
           <div class="quick-thumb">🦴</div>
-          <span>Books</span>
+          <span>Pain Relief</span>
         </div>
       </section>
 
       <section class="section-card">
         <div class="section-head">
-          <h2>Supplements Products</h2>
+          <h2>Featured Products</h2>
           <a href="categories.html" onclick="setSelectedCategory('All')">See All</a>
         </div>
         <div class="product-grid" id="featuredProducts"></div>
@@ -88,7 +83,7 @@
 
       <section class="section-card">
         <div class="section-head">
-          <h2>Liquid Products</h2>
+          <h2>Herbal Products</h2>
           <a href="categories.html" onclick="setSelectedCategory('Herbal Products')">See All</a>
         </div>
         <div class="product-grid" id="herbalProducts"></div>
@@ -96,7 +91,7 @@
 
       <section class="section-card">
         <div class="section-head">
-          <h2>Machines</h2>
+          <h2>Supplements</h2>
           <a href="categories.html" onclick="setSelectedCategory('Supplements')">See All</a>
         </div>
         <div class="product-grid" id="supplementProducts"></div>
@@ -104,7 +99,7 @@
 
       <section class="section-card">
         <div class="section-head">
-          <h2>Books</h2>
+          <h2>Liquid Supplements</h2>
           <a href="categories.html" onclick="setSelectedCategory('Liquid Supplements')">See All</a>
         </div>
         <div class="product-grid" id="liquidProducts"></div>

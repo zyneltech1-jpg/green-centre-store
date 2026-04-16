@@ -11,7 +11,7 @@ const products = [
     name: "Kunlun Mountain Snow Chrysanthemum",
     price: 12000,
     category: "Liquid Supplements",
-    image: "product1.jpg",
+    image: "images/snow-chrysanthemum.jpg",
     description: "Natural wellness tea product for general body support."
   },
   {
@@ -19,7 +19,7 @@ const products = [
     name: "Longreen Chitin Softgel",
     price: 15000,
     category: "Supplements",
-    image: "product2.jpg",
+    image: "images/chitin-softgel.jpg",
     description: "Softgel supplement designed for daily wellness support."
   },
   {
@@ -27,7 +27,7 @@ const products = [
     name: "Malaphoid Herbal Capsules",
     price: 10000,
     category: "Herbal Products",
-    image: "product3.jpg",
+    image: "images/malaphoid.jpg",
     description: "Herbal capsule product for body wellness support."
   },
   {
@@ -35,7 +35,7 @@ const products = [
     name: "Diabetes Care Herbal Capsules",
     price: 12000,
     category: "Herbal Products",
-    image: "product4.jpg",
+    image: "images/diabetes-care.jpg",
     description: "Herbal support product for metabolic wellness."
   },
   {
@@ -43,7 +43,7 @@ const products = [
     name: "Athrilax",
     price: 14000,
     category: "Pain Relief",
-    image: "product5.jpg",
+    image: "images/athrilax.jpg",
     description: "Capsule product for joint and body comfort support."
   },
   {
@@ -51,7 +51,7 @@ const products = [
     name: "Golden Six Pills",
     price: 18000,
     category: "Supplements",
-    image: "product6.jpg",
+    image: "images/golden-six-pills.jpg",
     description: "Supplement pill product for general daily support."
   },
   {
@@ -59,7 +59,7 @@ const products = [
     name: "Stroke Caps",
     price: 11000,
     category: "Herbal Products",
-    image: "product7.jpg",
+    image: "images/stroke-caps.jpg",
     description: "Herbal capsule product for circulatory wellness support."
   },
   {
@@ -67,7 +67,7 @@ const products = [
     name: "Venecare 40 (Std Care)",
     price: 12000,
     category: "Herbal Products",
-    image: "product8.jpg",
+    image: "images/venecare-40.jpg",
     description: "Herbal capsule product for wellness support."
   },
   {
@@ -75,7 +75,7 @@ const products = [
     name: "Men's Formula Herbal Capsules",
     price: 13000,
     category: "Herbal Products",
-    image: "product9.jpg",
+    image: "images/mens-formula.jpg",
     description: "Herbal formula designed for men's wellness support."
   },
   {
@@ -83,7 +83,7 @@ const products = [
     name: "Ulcer Care Herbal Capsules",
     price: 11000,
     category: "Herbal Products",
-    image: "product10.jpg",
+    image: "images/ulcer-care.jpg",
     description: "Herbal product for digestive wellness support."
   },
   {
@@ -505,19 +505,7 @@ function addToCart(id) {
 
   saveCart(cart);
   updateCartBadge();
-  showToast("Product Added to cart ✅");
-}
-
-function showToast(message) {
-  const toast = document.createElement("div");
-  toast.className = "toast";
-  toast.innerText = message;
-
-  document.body.appendChild(toast);
-
-  setTimeout(() => {
-    toast.remove();
-  }, 2500);
+  alert("Product added to cart.");
 }
 
 function renderCart() {
@@ -599,8 +587,6 @@ function removeItem(id) {
   updateCartBadge();
   renderCart();
 }
-
-window.location.href = "payment.html";
 
 /* =========================
    WISHLIST
@@ -777,28 +763,6 @@ function setupCheckoutForm() {
   });
 }
 
-function saveOrder(orderData) {
-  let orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-  orders.unshift(orderData); // latest first
-
-  localStorage.setItem("orders", JSON.stringify(orders));
-}
-const order = {
-  id: "ORD-" + Date.now(),
-  date: new Date().toLocaleString(),
-  items: cart.length,
-  total: totalPrice,
-  payment: selectedPaymentMethod
-};
-
-saveOrder(order);
-
-// clear cart
-localStorage.removeItem("cart");
-
-// go to orders page
-window.location.href = "orders.html";
 /* =========================
    ORDER SUCCESS
 ========================= */
@@ -829,30 +793,6 @@ function renderOrderSuccess() {
   totalEl.textContent = formatPrice(total);
 }
 
-const orders = JSON.parse(localStorage.getItem("orders")) || [];
-const lastOrder = orders[0];
-
-if (lastOrder) {
-  document.getElementById("orderCode").innerText = lastOrder.orderCode;
-}
-
-function showNotification(message) {
-  const notif = document.createElement("div");
-  notif.innerText = message;
-
-  notif.style.position = "fixed";
-  notif.style.top = "20px";
-  notif.style.right = "20px";
-  notif.style.background = "green";
-  notif.style.color = "white";
-  notif.style.padding = "10px 15px";
-  notif.style.borderRadius = "8px";
-
-  document.body.appendChild(notif);
-
-  setTimeout(() => notif.remove(), 3000);
-}
-
 /* =========================
    ORDER HISTORY
 ========================= */
@@ -869,10 +809,6 @@ function renderOrderHistory() {
       </div>
     `;
     return;
-  }
-
-  function goToOrders() {
-    window.location.href = "orders.html";
   }
 
   wrap.innerHTML = orders.map((order, index) => {
@@ -918,135 +854,10 @@ function setupLogout() {
   });
 }
 
-const fakeNames = ["John", "Mary", "David", "Aisha", "Daniel"];
-
-function showFakeActivity() {
-  const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
-
-  const popup = document.createElement("div");
-  popup.className = "live-popup";
-  popup.innerText = name + " just placed an order";
-
-  document.body.appendChild(popup);
-
-  setTimeout(() => {
-    popup.remove();
-  }, 3000);
+function goToOrders() {
+  window.location.href = "orders.html";
 }
 
-setInterval(showFakeActivity, 8000);
-
-function showToast(message) {
-  const toast = document.createElement("div");
-  toast.className = "toast";
-  toast.innerText = message;
-
-  document.body.appendChild(toast);
-
-  setTimeout(() => {
-    toast.remove();
-  }, 2500);
-}
-
-function sendToWhatsApp() {
-  const orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-  if (!orders.length) return alert("No orders");
-
-  const lastOrder = orders[0];
-
-  let message = "Hello, I want to place an order:\n\n";
-
-  lastOrder.items.forEach(item => {
-    message += item.name + " x" + item.qty + "\n";
-  });
-
-  message += "\nTotal: ₦" + lastOrder.total;
-
-  const phone = "234XXXXXXXXXX"; // replace with your number
-
-  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
-  window.open(url, "_blank");
-}
-
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const splash = document.getElementById("splashScreen");
-    if (splash) splash.style.display = "none";
-  }, 2000);
-});
-
-function showLoading(container) {
-  container.innerHTML = `
-    <div class="loader"></div>
-  `;
-}
-
-const container = document.getElementById("featuredProducts");
-
-showLoading(container);
-
-setTimeout(() => {
-  renderProducts();
-}, 800);
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js")
-    .then(() => console.log("SW Registered"));
-}
-
-function showNotification(message) {
-  const notif = document.createElement("div");
-  notif.className = "notification";
-  notif.innerText = message;
-
-  document.body.appendChild(notif);
-
-  setTimeout(() => {
-    notif.remove();
-  }, 4000);
-}
-
-// trigger random notifications
-setInterval(() => {
-  const messages = [
-    "🎉 New discount available!",
-    "📦 Your order is being processed",
-    "🔥 Hot deal just dropped!",
-    "✅ Payment confirmed",
-    "🚚 Order shipped successfully"
-  ];
-
-  const random = messages[Math.floor(Math.random() * messages.length)];
-  showNotification(random);
-
-}, 15000);
-
-function showPushAlert() {
-  const popup = document.createElement("div");
-  popup.className = "push-alert";
-
-  popup.innerHTML = `
-    <strong>Green Centre</strong>
-    <p>Your order has been delivered 🎉</p>
-  `;
-
-  document.body.appendChild(popup);
-
-  setTimeout(() => {
-    popup.remove();
-  }, 5000);
-}
-
-function saveRecentlyViewed(product) {
-  let items = JSON.parse(localStorage.getItem("recent")) || [];
-
-  items = items.filter(p => p.id !== product.id);
-  items.unshift(product);
-
-  localStorage.setItem("recent", JSON.stringify(items.slice(0,5)));
-}
 /* =========================
    DOM READY
 ========================= */

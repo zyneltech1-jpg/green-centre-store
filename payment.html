@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Checkout</title>
+  <title>Payment</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,45 +13,18 @@
 
 <div class="page-content">
 
-  <h4>Total Amount</h4>
+  <h3>Total Amount</h3>
   <h2 id="paymentTotal">₦0</h2>
 
-  <h4>Payment Method</h4>
+  <h3>Select Payment Method</h3>
 
-  <div class="payment-option" onclick="selectPayment(this, 'Card')">
-    💳 Pay with Card
-  </div>
-
-  <div class="payment-option" onclick="selectPayment(this, 'Transfer')">
-    🏦 Bank Transfer
-  </div>
-
-  <div class="payment-option" onclick="selectPayment(this, 'Cash')">
-    💵 Pay on Delivery
-  </div>
+  <div class="payment-option" onclick="selectPayment('Card')">💳 Pay with Card</div>
+  <div class="payment-option" onclick="selectPayment('Transfer')">🏦 Bank Transfer</div>
+  <div class="payment-option" onclick="selectPayment('Cash')">💵 Pay on Delivery</div>
 
   <button onclick="completePayment()">Complete Order</button>
 
 </div>
-<nav class="bottom-nav">
-      <a href="index.html" class="nav-item active">
-        <span>🏠</span>
-        <small>Home</small>
-      </a>
-      <a href="categories.html" class="nav-item" onclick="setSelectedCategory('All')">
-        <span>📂</span>
-        <small>Categories</small>
-      </a>
-      <a href="cart.html" class="nav-item">
-        <span>🛒</span>
-        <small>Cart</small>
-      </a>
-      <a href="account.html" class="nav-item">
-        <span>👤</span>
-        <small>Account</small>
-      </a>
-    </nav>
-  </div>
 
 <script>
 let selectedPayment = "";
@@ -59,50 +32,33 @@ let selectedPayment = "";
 function loadTotal() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  let total = 0;
-
-  cart.forEach(item => {
-    total += item.price * item.qty;
-  });
+  const total = cart.reduce((sum, item) => {
+    return sum + (item.price * item.qty);
+  }, 0);
 
   document.getElementById("paymentTotal").innerText = "₦" + total;
 }
 
-function selectPayment(el, method) {
+function selectPayment(method) {
   selectedPayment = method;
-
-  document.querySelectorAll(".payment-option").forEach(p => {
-    p.classList.remove("active-payment");
-  });
-
-  el.classList.add("active-payment");
-}
-
-paymentVerified: false
-
-function generateOrderCode() {
-  return "GC-" + Math.floor(100000 + Math.random() * 900000);
+  alert("Selected: " + method);
 }
 
 function completePayment() {
-  if (!selectedPayment) {
-    alert("Please select payment method");
-    return;
-  }
+  if (!selectedPayment) return alert("Select payment method");
 
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  let total = 0;
-  cart.forEach(item => total += item.price * item.qty);
+  const total = cart.reduce((sum, item) => {
+    return sum + (item.price * item.qty);
+  }, 0);
 
   const orders = JSON.parse(localStorage.getItem("orders")) || [];
 
   orders.unshift({
     items: cart,
-    total: total,
+    total,
     paymentMethod: selectedPayment,
-    status: "processing",
-    ordercode: generateOrderCode(),
     createdAt: new Date().toISOString()
   });
 
