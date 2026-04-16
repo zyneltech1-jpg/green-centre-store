@@ -508,6 +508,18 @@ function addToCart(id) {
   showToast("Product Added to cart ✅");
 }
 
+function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = message;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 2500);
+}
+
 function renderCart() {
   const wrap = document.getElementById("cartItems");
   const subtotalEl = document.getElementById("subtotal");
@@ -587,6 +599,8 @@ function removeItem(id) {
   updateCartBadge();
   renderCart();
 }
+
+window.location.href = "payment.html";
 
 /* =========================
    WISHLIST
@@ -763,6 +777,28 @@ function setupCheckoutForm() {
   });
 }
 
+function saveOrder(orderData) {
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  orders.unshift(orderData); // latest first
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+}
+const order = {
+  id: "ORD-" + Date.now(),
+  date: new Date().toLocaleString(),
+  items: cart.length,
+  total: totalPrice,
+  payment: selectedPaymentMethod
+};
+
+saveOrder(order);
+
+// clear cart
+localStorage.removeItem("cart");
+
+// go to orders page
+window.location.href = "orders.html";
 /* =========================
    ORDER SUCCESS
 ========================= */
@@ -791,6 +827,30 @@ function renderOrderSuccess() {
   paymentEl.textContent = order.paymentMethod;
   itemsEl.textContent = itemCount;
   totalEl.textContent = formatPrice(total);
+}
+
+const orders = JSON.parse(localStorage.getItem("orders")) || [];
+const lastOrder = orders[0];
+
+if (lastOrder) {
+  document.getElementById("orderCode").innerText = lastOrder.orderCode;
+}
+
+function showNotification(message) {
+  const notif = document.createElement("div");
+  notif.innerText = message;
+
+  notif.style.position = "fixed";
+  notif.style.top = "20px";
+  notif.style.right = "20px";
+  notif.style.background = "green";
+  notif.style.color = "white";
+  notif.style.padding = "10px 15px";
+  notif.style.borderRadius = "8px";
+
+  document.body.appendChild(notif);
+
+  setTimeout(() => notif.remove(), 3000);
 }
 
 /* =========================
@@ -888,6 +948,105 @@ function showToast(message) {
   }, 2500);
 }
 
+function sendToWhatsApp() {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  if (!orders.length) return alert("No orders");
+
+  const lastOrder = orders[0];
+
+  let message = "Hello, I want to place an order:\n\n";
+
+  lastOrder.items.forEach(item => {
+    message += item.name + " x" + item.qty + "\n";
+  });
+
+  message += "\nTotal: ₦" + lastOrder.total;
+
+  const phone = "234XXXXXXXXXX"; // replace with your number
+
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+}
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const splash = document.getElementById("splashScreen");
+    if (splash) splash.style.display = "none";
+  }, 2000);
+});
+
+function showLoading(container) {
+  container.innerHTML = `
+    <div class="loader"></div>
+  `;
+}
+
+const container = document.getElementById("featuredProducts");
+
+showLoading(container);
+
+setTimeout(() => {
+  renderProducts();
+}, 800);
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js")
+    .then(() => console.log("SW Registered"));
+}
+
+function showNotification(message) {
+  const notif = document.createElement("div");
+  notif.className = "notification";
+  notif.innerText = message;
+
+  document.body.appendChild(notif);
+
+  setTimeout(() => {
+    notif.remove();
+  }, 4000);
+}
+
+// trigger random notifications
+setInterval(() => {
+  const messages = [
+    "🎉 New discount available!",
+    "📦 Your order is being processed",
+    "🔥 Hot deal just dropped!",
+    "✅ Payment confirmed",
+    "🚚 Order shipped successfully"
+  ];
+
+  const random = messages[Math.floor(Math.random() * messages.length)];
+  showNotification(random);
+
+}, 15000);
+
+function showPushAlert() {
+  const popup = document.createElement("div");
+  popup.className = "push-alert";
+
+  popup.innerHTML = `
+    <strong>Green Centre</strong>
+    <p>Your order has been delivered 🎉</p>
+  `;
+
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    popup.remove();
+  }, 5000);
+}
+
+function saveRecentlyViewed(product) {
+  let items = JSON.parse(localStorage.getItem("recent")) || [];
+
+  items = items.filter(p => p.id !== product.id);
+  items.unshift(product);
+
+  localStorage.setItem("recent", JSON.stringify(items.slice(0,5)));
+}
 /* =========================
    DOM READY
 ========================= */

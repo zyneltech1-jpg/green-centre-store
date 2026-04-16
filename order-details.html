@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order Details</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="top-header">
+  <h2>Order Details</h2>
+</header>
+
+<div class="page-content">
+
+  <div id="orderDetails"></div>
+
+</div>
+
+<div class="tracking">
+  <div class="step" id="step1">Processing</div>
+  <div class="step" id="step2">Shipped</div>
+  <div class="step" id="step3">Delivered</div>
+</div>
+
+<div class="timeline">
+  <p>🕒 Order placed</p>
+  <p>📦 Processing</p>
+  <p>🚚 Shipped</p>
+  <p>✅ Delivered</p>
+</div>
+
+<h3>Scan to Claim Order</h3>
+<img id="qrCode" />
+<button onclick="cancelOrder()">Cancel Order</button>
+<div id="orderDetails"></div>
+<script>
+function loadOrderDetails() {
+const order = JSON.parse(localStorage.getItem("selectedOrder"));
+const container = document.getElementById("orderDetails");
+
+function getStep(status) {
+  if (status === "Pending") return 1;
+  if (status === "Processing") return 2;
+  if (status === "Delivered") return 3;
+}
+
+if (!order) {
+  container.innerHTML = "<p>No order found</p>";
+} else {
+  const step = getStep(order.status);
+
+  container.innerHTML = `
+    <h2>${order.id}</h2>
+
+    <div class="progress-bar">
+      <div class="step ${step >= 1 ? 'active' : ''}">Pending</div>
+      <div class="step ${step >= 2 ? 'active' : ''}">Processing</div>
+      <div class="step ${step >= 3 ? 'active' : ''}">Delivered</div>
+    </div>
+
+    <p>Status: ${order.status}</p>
+    <p>Date: ${order.date}</p>
+
+    <div id="countdown"></div>
+
+    <h3>Items:</h3>
+    ${order.items.map(item => `
+      <div>
+        <strong>${item.name}</strong> - ₦${item.price}
+      </div>
+    `).join("")}
+
+    <h2>Total: ₦${order.total}</h2>
+  `;
+}
+
+
+function goBack() {
+  window.history.back();
+}
+
+loadOrderDetails();
+
+// trigger occasionally
+setInterval(showPushAlert, 25000);
+
+function updateTrackingUI(status) {
+  if (status === "Processing") {
+    document.getElementById("step1").classList.add("active");
+  }
+  if (status === "Shipped") {
+    document.getElementById("step1").classList.add("active");
+    document.getElementById("step2").classList.add("active");
+  }
+  if (status === "Delivered") {
+    document.getElementById("step1").classList.add("active");
+    document.getElementById("step2").classList.add("active");
+    document.getElementById("step3").classList.add("active");
+  }
+}
+updateTrackingUI(order.status);
+function cancelOrder() {
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const index = localStorage.getItem("selectedOrderIndex");
+
+  if (!orders[index]) return;
+
+  orders[index].status = "Cancelled";
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  alert("Order Cancelled ❌");
+  location.reload();
+}
+
+const orders = JSON.parse(localStorage.getItem("orders")) || [];
+const lastOrder = orders[0];
+
+if (lastOrder) {
+  const data = lastOrder.orderCode;
+
+  document.getElementById("qrCode").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + data;
+}
+
+const countdownDiv = document.getElementById("countdown");
+
+if (order) {
+  const deliveryDate = new Date();
+  deliveryDate.setDate(deliveryDate.getDate() + 3);
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = deliveryDate - now;
+
+    if (diff <= 0) {
+      countdownDiv.innerHTML = "Delivered ✅";
+      return;
+    }
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    countdownDiv.innerHTML = "Estimated delivery: " + hours + " hrs";
+  }
+
+  setInterval(updateCountdown, 1000);
+}
+</script>
+
+</body>
+</html>

@@ -15,8 +15,44 @@
 <button onclick="addProduct()">Add Product</button>
 
 <div id="adminProducts"></div>
+<h3>Orders Management</h3>
+<div id="adminOrders"></div>
+
+  <h2>Admin Panel</h2>
+<div id="adminOrders"></div>
 
 <script>
+const container = document.getElementById("adminOrders");
+
+function loadAdminOrders() {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  container.innerHTML = orders.map((order, index) => `
+    <div style="margin-bottom:20px; border:1px solid #ccc; padding:10px;">
+      <strong>${order.id}</strong>
+      <p>${order.status}</p>
+
+      <select onchange="updateStatus(${index}, this.value)">
+        <option ${order.status === "Pending" ? "selected" : ""}>Pending</option>
+        <option ${order.status === "Processing" ? "selected" : ""}>Processing</option>
+        <option ${order.status === "Delivered" ? "selected" : ""}>Delivered</option>
+      </select>
+    </div>
+  `).join("");
+}
+
+function updateStatus(index, newStatus) {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  orders[index].status = newStatus;
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  loadAdminOrders();
+}
+
+loadAdminOrders();
+
 function getProducts() {
   return JSON.parse(localStorage.getItem("products")) || [];
 }
@@ -58,6 +94,58 @@ function renderAdminProducts() {
 }
 
 renderAdminProducts();
+
+function renderAdminOrders() {
+  const container = document.getElementById("adminOrders");
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  container.innerHTML = orders.map((order, index) => `
+    <div class="order-card">
+      <p><strong>${order.orderCode}</strong></p>
+      <p>₦${order.total}</p>
+      <p>Status: ${order.status}</p>
+
+      <button onclick="approveOrder(${index})">Approve</button>
+      <button onclick="shipOrder(${index})">Ship</button>
+      <button onclick="deliverOrder(${index})">Deliver</button>
+    </div>
+  `).join("");
+}
+
+function approveOrder(index) {
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  orders[index].status = "Approved";
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderAdminOrders();
+}
+
+function shipOrder(index) {
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  orders[index].status = "Shipped";
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderAdminOrders();
+}
+
+function deliverOrder(index) {
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  orders[index].status = "Delivered";
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderAdminOrders();
+}
+
+renderAdminOrders();
+
+<p>Payment: ${order.paymentVerified ? "Verified ✅" : "Pending ❌"}</p>
+
+<button onclick="verifyPayment(${index})">Verify Payment</button>
+
+function verifyPayment(index) {
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  orders[index].paymentVerified = true;
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderAdminOrders();
+}
 </script>
 
 </body>

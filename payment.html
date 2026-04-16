@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkout</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="top-header">
+  <h2>Checkout</h2>
+</header>
+
+<div class="page-content">
+
+  <h4>Total Amount</h4>
+  <h2 id="paymentTotal">₦0</h2>
+
+  <h4>Payment Method</h4>
+
+  <div class="payment-option" onclick="selectPayment(this, 'Card')">
+    💳 Pay with Card
+  </div>
+
+  <div class="payment-option" onclick="selectPayment(this, 'Transfer')">
+    🏦 Bank Transfer
+  </div>
+
+  <div class="payment-option" onclick="selectPayment(this, 'Cash')">
+    💵 Pay on Delivery
+  </div>
+
+  <button onclick="completePayment()">Complete Order</button>
+
+</div>
+
+<script>
+let selectedPayment = "";
+
+function loadTotal() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+
+  cart.forEach(item => {
+    total += item.price * item.qty;
+  });
+
+  document.getElementById("paymentTotal").innerText = "₦" + total;
+}
+
+function selectPayment(el, method) {
+  selectedPayment = method;
+
+  document.querySelectorAll(".payment-option").forEach(p => {
+    p.classList.remove("active-payment");
+  });
+
+  el.classList.add("active-payment");
+}
+
+paymentVerified: false
+
+function generateOrderCode() {
+  return "GC-" + Math.floor(100000 + Math.random() * 900000);
+}
+
+function completePayment() {
+  if (!selectedPayment) {
+    alert("Please select payment method");
+    return;
+  }
+
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let total = 0;
+  cart.forEach(item => total += item.price * item.qty);
+
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  orders.unshift({
+    items: cart,
+    total: total,
+    paymentMethod: selectedPayment,
+    status: "processing",
+    ordercode: generateOrderCode(),
+    createdAt: new Date().toISOString()
+  });
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+  localStorage.removeItem("cart");
+
+  window.location.href = "order-success.html";
+}
+
+loadTotal();
+</script>
+
+</body>
+</html>
