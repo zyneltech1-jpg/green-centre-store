@@ -59,7 +59,7 @@
       }
 
       container.innerHTML = orders.map((order, index) => {
-        const itemCount = order.items.reduce((sum, item) => sum + item.qty, 0);
+        const itemCount = order.items.reduce((sum, item) => sum + (item.qty || item.quantity || 1), 0);
 
         return `
           <div class="order-card">

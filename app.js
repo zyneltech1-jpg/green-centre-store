@@ -752,14 +752,37 @@ function setupCheckoutForm() {
       createdAt: new Date().toISOString()
     };
 
-    const existingOrders = getOrders();
-    existingOrders.unshift(order);
-    saveOrders(existingOrders);
+    function completeOrder() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
-    localStorage.removeItem("greenCentreCart");
+  if (cart.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
 
-    window.location.href = "order-success.html";
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  const newOrder = {
+    id: "ORD-" + Date.now(),
+    items: cart,
+    total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+    status: "Processing",
+    createdAt: new Date().toISOString()
+  };
+
+  orders.push(newOrder);
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // clear cart after order
+  localStorage.removeItem("cart");
+
+  alert("Order placed successfully!");
+
+  window.location.href = "orders.html";
+}
+
+
   });
 }
 
@@ -827,36 +850,6 @@ function renderOrderHistory() {
       </div>
     `;
   }).join("");
-}
-
-function completeOrder() {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  if (cart.length === 0) {
-    alert("Cart is empty");
-    return;
-  }
-
-  const orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-  const newOrder = {
-    id: "ORD-" + Date.now(),
-    items: cart,
-    total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
-    status: "Processing",
-    createdAt: new Date().toISOString()
-  };
-
-  orders.push(newOrder);
-
-  localStorage.setItem("orders", JSON.stringify(orders));
-
-  // clear cart after order
-  localStorage.removeItem("cart");
-
-  alert("Order placed successfully!");
-
-  window.location.href = "orders.html";
 }
 
 /* =========================
