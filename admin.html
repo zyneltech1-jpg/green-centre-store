@@ -16,6 +16,25 @@
 
 <div id="adminProducts"></div>
 
+<nav class="bottom-nav">
+      <a href="index.html" class="nav-item active">
+        <span>🏠</span>
+        <small>Home</small>
+      </a>
+      <a href="categories.html" class="nav-item" onclick="setSelectedCategory('All')">
+        <span>📂</span>
+        <small>Categories</small>
+      </a>
+      <a href="cart.html" class="nav-item">
+        <span>🛒</span>
+        <small>Cart</small>
+      </a>
+      <a href="account.html" class="nav-item">
+        <span>👤</span>
+        <small>Account</small>
+      </a>
+    </nav>
+
 <script>
 function getProducts() {
   return JSON.parse(localStorage.getItem("products")) || [];
