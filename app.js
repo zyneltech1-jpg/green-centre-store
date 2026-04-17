@@ -752,6 +752,13 @@ function setupCheckoutForm() {
       createdAt: new Date().toISOString()
     };
 
+    const existingOrders = getOrders();
+    existingOrders.unshift(order);
+    saveOrders(existingOrders);
+
+    localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
+    localStorage.removeItem("greenCentreCart");
+
     function completeOrder() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -781,8 +788,6 @@ function setupCheckoutForm() {
 
   window.location.href = "orders.html";
 }
-
-
   });
 }
 
