@@ -60,7 +60,7 @@
    LOAD CHECKOUT
 ========================= */
 function loadCheckout() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cart = JSON.parse(localStorage.getItem("greenCentreCart")) || [];
     const container = document.getElementById("checkoutItems");
 
     if (!container) return;
@@ -130,7 +130,7 @@ function placeOrder() {
     localStorage.setItem("orders", JSON.stringify(existingOrders));
 
     // CLEAR CART
-    localStorage.removeItem("cart");
+    localStorage.removeItem("greenCentreCart");
 
     alert("Order placed successfully!");
 
