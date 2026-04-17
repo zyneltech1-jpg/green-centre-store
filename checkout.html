@@ -1,133 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout - Green Centre</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body data-page="checkout">
-  <div class="app-shell">
-    <header class="top-header">
-      <div class="top-row">
-        <div class="page-title">Checkout</div>
-        <a href="cart.html" class="small-top-link">Back to Cart</a>
-      </div>
-    </header>
 
-    <main class="page-content">
-      <section class="section-card form-card">
-        <div class="section-head no-link">
-          <h2>Customer Details</h2>
-        </div>
+<body>
 
-        <form id="checkoutForm" class="checkout-form">
-          <div class="form-group">
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" placeholder="Enter full name" required>
-          </div>
+<header class="top-header">
+    <div class="top-row">
+        <h2>Checkout</h2>
+        <a href="cart.html">Back to Cart</a>
+    </div>
+</header>
 
-          <div class="form-group">
-            <label for="emailAddress">Email Address</label>
-            <input type="email" id="emailAddress" placeholder="Enter email address" required>
-          </div>
+<main class="page-content">
 
-          <div class="form-group">
-            <label for="phoneNumber">Phone Number</label>
-            <input type="tel" id="phoneNumber" placeholder="Enter phone number" required>
-          </div>
+    <!-- CART ITEMS -->
+    <div id="checkoutItems"></div>
 
-          <div class="form-group">
-            <label for="deliveryAddress">Delivery Address</label>
-            <textarea id="deliveryAddress" rows="4" placeholder="Enter delivery address" required></textarea>
-          </div>
+    <!-- SUMMARY -->
+    <div class="checkout-summary">
+        <p>Subtotal: <span id="subtotal">₦0</span></p>
+        <p>Delivery: <span id="delivery">₦3,000</span></p>
+        <h3>Total: <span id="total">₦0</span></h3>
+    </div>
 
-          <div class="form-group">
-            <label for="city">City</label>
-            <input type="text" id="city" placeholder="Enter city" required>
-          </div>
+    <!-- PAYMENT -->
+    <div class="payment-section">
+        <h3>Payment Method</h3>
 
-          <div class="form-group">
-            <label for="state">State</label>
-            <input type="text" id="state" placeholder="Enter state" required>
-          </div>
-        </form>
-      </section>
-
-      <section class="section-card form-card">
-        <div class="section-head no-link">
-          <h2>Payment Method</h2>
-        </div>
-
-        <div class="payment-box checkout-payment">
-          <label class="radio-row">
+        <label>
             <input type="radio" name="paymentMethod" value="Pay Online" checked>
             Pay Online
-          </label>
+        </label>
 
-          <label class="radio-row">
+        <label>
+            <input type="radio" name="paymentMethod" value="Bank Transfer">
+            Bank Transfer
+        </label>
+
+        <label>
             <input type="radio" name="paymentMethod" value="Pay on Delivery">
             Pay on Delivery
-          </label>
-        </div>
-      </section>
+        </label>
+    </div>
 
-      <section class="section-card" id="checkoutSummaryWrap">
-        <div class="section-head no-link">
-          <h2>Order Summary</h2>
-        </div>
+    <!-- BUTTON -->
+    <button id="placeOrderBtn" class="primary-btn">Place Order</button>
 
-        <div id="checkoutItems"></div>
+</main>
 
-        <div class="summary-row">
-          <span>Subtotal</span>
-          <strong id="checkoutSubtotal">₦0</strong>
-        </div>
-
-        <div class="summary-row">
-          <span>Delivery Fee</span>
-          <strong>₦3,000</strong>
-        </div>
-
-        <div class="summary-row total-row">
-          <span>Total</span>
-          <strong id="checkoutTotal">₦0</strong>
-        </div>
-
-        <button type="submit" form="checkoutForm" class="primary-btn full-btn">Place Order</button>
-        <button onclick="sendToWhatsApp()">Order via WhatsApp</button>
-      </section>
-    </main>
-
-    <div class="trust-box">
-  🔒 Secure Payment <br>
-  🚚 Fast Delivery (2–3 days) <br>
-  📞 24/7 Support Available
-   </div>
-
-    <nav class="bottom-nav">
-      <a href="index.html" class="nav-item">
-        <span>🏠</span>
-        <small>Home</small>
-      </a>
-      <a href="categories.html" class="nav-item">
-        <span>📂</span>
-        <small>Categories</small>
-      </a>
-      <a href="cart.html" class="nav-item active">
-        <span>🛒</span>
-        <small>Cart</small>
-      </a>
-      <a href="account.html" class="nav-item">
-        <span>👤</span>
-        <small>Account</small>
-      </a>
-    </nav>
-  </div>
-
-  <script src="app.js"></script>
 </body>
+
+<script>
+/* =========================
+   LOAD CHECKOUT
+========================= */
+function loadCheckout() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const container = document.getElementById("checkoutItems");
+
+    if (!container) return;
+
+    if (cart.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <h3>No items in cart</h3>
+                <a href="index.html">Start Shopping</a>
+            </div>
+        `;
+        return;
+    }
+
+    let subtotal = 0;
+
+    container.innerHTML = cart.map(item => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+
+        return `
+            <div class="checkout-item">
+                <h4>${item.name}</h4>
+                <p>Qty: ${item.quantity}</p>
+                <p>₦${itemTotal.toLocaleString()}</p>
+            </div>
+        `;
+    }).join("");
+
+    const delivery = 3000;
+    const total = subtotal + delivery;
+
+    document.getElementById("subtotal").textContent = "₦" + subtotal.toLocaleString();
+    document.getElementById("total").textContent = "₦" + total.toLocaleString();
+}
+
+/* =========================
+   PLACE ORDER
+========================= */
+function placeOrder() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    const paymentMethod =
+        document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
+
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const delivery = 3000;
+    const total = subtotal + delivery;
+
+    const order = {
+        id: "ORD-" + Date.now(),
+        items: cart,
+        total: total,
+        status: "Processing",
+        paymentMethod: paymentMethod,
+        createdAt: new Date().toISOString()
+    };
+
+    const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    existingOrders.unshift(order);
+
+    localStorage.setItem("orders", JSON.stringify(existingOrders));
+
+    // CLEAR CART
+    localStorage.removeItem("cart");
+
+    alert("Order placed successfully!");
+
+    window.location.href = "orders.html";
+}
+
+/* =========================
+   INIT
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+    loadCheckout();
+
+    const btn = document.getElementById("placeOrderBtn");
+    if (btn) {
+        btn.addEventListener("click", placeOrder);
+    }
+});
+</script>
+
 </html>

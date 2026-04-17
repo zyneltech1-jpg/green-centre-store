@@ -43,65 +43,35 @@
 
   <!-- SCRIPT -->
   <script>
-    function getOrders() {
-      return JSON.parse(localStorage.getItem("orders")) || [];
-    }
+function loadOrders() {
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const container = document.getElementById("orderHistoryList");
 
-    function renderOrders() {
-      const container = document.getElementById("orderHistoryList");
-      if (!container) return;
+    if (!container) return;
 
-      const orders = getOrders();
-
-      if (!orders.length) {
+    if (orders.length === 0) {
         container.innerHTML = "<p>No orders yet</p>";
         return;
-      }
-
-      container.innerHTML = orders.map((order, index) => {
-        const itemCount = order.items.reduce((sum, item) => sum + (item.qty || item.quantity || 1), 0);
-
-        return `
-          <div class="order-card">
-            <h3>Order #${orders.length - index}</h3>
-            <p>${new Date(order.createdAt).toLocaleString()}</p>
-            <p>${itemCount} item(s)</p>
-            <p>Payment: ${order.paymentMethod}</p>
-            <h4>₦${order.total}</h4>
-          </div>
-        `;
-      }).join("");
     }
 
-    document.addEventListener("DOMContentLoaded", renderOrders);
-
-    function loadOrders() {
-  const orders = JSON.parse(localStorage.getItem("orders")) || [];
-  const container = document.getElementById("ordersContainer");
-
-  if (orders.length === 0) {
-    container.innerHTML = "<p>No orders yet</p>";
-    return;
-  }
-
-  container.innerHTML = orders.map((order, index) => `
-    <div class="order-card" onclick="viewOrder(${index})">
-      <h3>${order.id}</h3>
-      <p>${new Date(order.createdAt).toLocaleString()}</p>
-      <p>${order.items.length} item(s)</p>
-      <p>Status: ${order.status}</p>
-      <h4>₦${order.total}</h4>
-    </div>
-  `).join("");
+    container.innerHTML = orders.map((order, index) => `
+        <div class="order-card" onclick="viewOrder(${index})">
+            <h3>${order.id}</h3>
+            <p>${new Date(order.createdAt).toLocaleString()}</p>
+            <p>${order.items.length} item(s)</p>
+            <p>Status: ${order.status}</p>
+            <h4>₦${order.total}</h4>
+        </div>
+    `).join("");
 }
 
 function viewOrder(index) {
-  localStorage.setItem("selectedOrderIndex", index);
-  window.location.href = "order-details.html";
+    localStorage.setItem("selectedOrderIndex", index);
+    window.location.href = "order-details.html";
 }
 
-loadOrders();
-  </script>
+document.addEventListener("DOMContentLoaded", loadOrders);
+</script>
 
 </body>
 </html>
