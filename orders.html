@@ -22,6 +22,25 @@
     <div id="orderHistoryList"></div>
   </main>
 
+  <nav class="bottom-nav">
+      <a href="index.html" class="nav-item active">
+        <span>🏠</span>
+        <small>Home</small>
+      </a>
+      <a href="categories.html" class="nav-item" onclick="setSelectedCategory('All')">
+        <span>📂</span>
+        <small>Categories</small>
+      </a>
+      <a href="cart.html" class="nav-item">
+        <span>🛒</span>
+        <small>Cart</small>
+      </a>
+      <a href="account.html" class="nav-item">
+        <span>👤</span>
+        <small>Account</small>
+      </a>
+    </nav>
+
   <!-- SCRIPT -->
   <script>
     function getOrders() {
@@ -55,6 +74,33 @@
     }
 
     document.addEventListener("DOMContentLoaded", renderOrders);
+
+    function loadOrders() {
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const container = document.getElementById("ordersContainer");
+
+  if (orders.length === 0) {
+    container.innerHTML = "<p>No orders yet</p>";
+    return;
+  }
+
+  container.innerHTML = orders.map((order, index) => `
+    <div class="order-card" onclick="viewOrder(${index})">
+      <h3>${order.id}</h3>
+      <p>${new Date(order.createdAt).toLocaleString()}</p>
+      <p>${order.items.length} item(s)</p>
+      <p>Status: ${order.status}</p>
+      <h4>₦${order.total}</h4>
+    </div>
+  `).join("");
+}
+
+function viewOrder(index) {
+  localStorage.setItem("selectedOrderIndex", index);
+  window.location.href = "order-details.html";
+}
+
+loadOrders();
   </script>
 
 </body>
