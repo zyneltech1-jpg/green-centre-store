@@ -11,7 +11,7 @@ const products = [
     name: "Kunlun Mountain Snow Chrysanthemum",
     price: 12000,
     category: "Liquid Supplements",
-    image: "images/snow-chrysanthemum.jpg",
+    image: "product1.jpg",
     description: "Natural wellness tea product for general body support."
   },
   {
