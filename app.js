@@ -656,6 +656,140 @@ function moveWishlistToCart(id) {
   removeFromWishlist(id);
 }
 
+/* =========================
+   CHECKOUT
+========================= */
+function renderCheckout() {
+  const wrap = document.getElementById("checkoutItems");
+  const subtotalEl = document.getElementById("checkoutSubtotal");
+  const totalEl = document.getElementById("checkoutTotal");
+  const summaryWrap = document.getElementById("checkoutSummaryWrap");
+
+  if (!wrap) return;
+
+  const cart = getCart();
+
+  if (!cart.length) {
+    wrap.innerHTML = `
+      <div class="empty-state">
+        <h3>No items to checkout</h3>
+        <p>Add products to your cart before checking out.</p>
+        <a href="index.html" class="primary-btn">Start Shopping</a>
+      </div>
+    `;
+    if (subtotalEl) subtotalEl.textContent = "₦0";
+    if (totalEl) totalEl.textContent = "₦0";
+    if (summaryWrap) summaryWrap.style.display = "block";
+    return;
+  }
+
+  let subtotal = 0;
+
+  wrap.innerHTML = cart.map(item => {
+    subtotal += item.price * item.quantity;
+
+    return `
+      <article class="checkout-item">
+        <div class="checkout-thumb">
+          <img src="${item.image}" alt="${item.name}">
+        </div>
+        <div class="checkout-info">
+          <h4>${item.name}</h4>
+          <p>${item.category}</p>
+          <p>Qty: ${item.quantity}</p>
+          <strong>${formatPrice(item.price * item.quantity)}</strong>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  const delivery = 3000;
+  const total = subtotal + delivery;
+
+  if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
+  if (totalEl) totalEl.textContent = formatPrice(total);
+}
+
+function setupCheckoutForm() {
+  const form = document.getElementById("checkoutForm");
+  if (!form) return;
+
+  const user = getUser();
+
+  if (user) {
+    const fullName = document.getElementById("fullName");
+    const emailAddress = document.getElementById("emailAddress");
+    const phoneNumber = document.getElementById("phoneNumber");
+
+    if (fullName) fullName.value = `${user.firstName} ${user.lastName}`;
+    if (emailAddress) emailAddress.value = user.email;
+    if (phoneNumber) phoneNumber.value = user.phone || "";
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const cart = getCart();
+    if (!cart.length) {
+      alert("Your cart is empty.");
+      return;
+    }
+
+    const paymentMethod =
+      document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
+
+    const order = {
+      customer: {
+        fullName: document.getElementById("fullName").value.trim(),
+        email: document.getElementById("emailAddress").value.trim(),
+        phone: document.getElementById("phoneNumber").value.trim(),
+        address: document.getElementById("deliveryAddress").value.trim(),
+        city: document.getElementById("city").value.trim(),
+        state: document.getElementById("state").value.trim()
+      },
+      paymentMethod,
+      items: cart,
+      createdAt: new Date().toISOString()
+    };
+
+    const existingOrders = getOrders();
+    existingOrders.unshift(order);
+    saveOrders(existingOrders);
+
+    localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
+    localStorage.removeItem("greenCentreCart");
+
+    function completeOrder() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  if (cart.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
+
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  const newOrder = {
+    id: "ORD-" + Date.now(),
+    items: cart,
+    total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+    status: "Processing",
+    createdAt: new Date().toISOString()
+  };
+
+  orders.push(newOrder);
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // clear cart after order
+  localStorage.removeItem("cart");
+
+  alert("Order placed successfully!");
+
+  window.location.href = "orders.html";
+}
+  });
+}
 
 /* =========================
    ORDER SUCCESS
