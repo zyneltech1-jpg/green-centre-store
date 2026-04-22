@@ -19,7 +19,7 @@ const products = [
     name: "Longreen Chitin Softgel",
     price: 15000,
     category: "Supplements",
-    image: "product2.jpg",
+    image: "product2 (2).jpg",
     description: "Softgel supplement designed for daily wellness support."
   },
   {
@@ -27,7 +27,7 @@ const products = [
     name: "Malaphoid Herbal Capsules",
     price: 10000,
     category: "Herbal Products",
-    image: "product3.jpg",
+    image: "product3 (3).jpg",
     description: "Herbal capsule product for body wellness support."
   },
   {
@@ -35,7 +35,7 @@ const products = [
     name: "Diabetes Care Herbal Capsules",
     price: 12000,
     category: "Herbal Products",
-    image: "product4.jpg",
+    image: "product4 (4).jpg",
     description: "Herbal support product for metabolic wellness."
   },
   {
