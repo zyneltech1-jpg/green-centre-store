@@ -91,7 +91,7 @@ const products = [
     name: "Ganoderma Lucidum Spore Powder",
     price: 17000,
     category: "Supplements",
-    image: "images/ganoderma-lucidum.jpg",
+    image: "images11.jpg",
     description: "Capsule supplement for immune and wellness support."
   },
   {
@@ -99,7 +99,7 @@ const products = [
     name: "Natural Antibiotics (Dukun Care)",
     price: 10000,
     category: "Herbal Products",
-    image: "images/natural-antibiotics.jpg",
+    image: "images12.jpg",
     description: "Natural herbal support product for everyday wellness."
   },
   {
@@ -107,7 +107,7 @@ const products = [
     name: "Eye Care Herbal Capsules",
     price: 10000,
     category: "Herbal Products",
-    image: "images/eye-care.jpg",
+    image: "images13.jpg",
     description: "Herbal capsule product for eye wellness support."
   },
   {
@@ -115,7 +115,7 @@ const products = [
     name: "Stop Piles Herbal Capsules",
     price: 10000,
     category: "Herbal Products",
-    image: "images/stop-piles.jpg",
+    image: "images14.jpg",
     description: "Herbal support product for digestive comfort."
   },
   {
@@ -123,7 +123,7 @@ const products = [
     name: "Hyperthyroidism Capsule",
     price: 12500,
     category: "Herbal Products",
-    image: "images/hyperthyroidism-capsule.jpg",
+    image: "images15.jpg",
     description: "Capsule product for thyroid wellness support."
   },
   {
@@ -131,7 +131,7 @@ const products = [
     name: "EH GinBiloba Extra Strength",
     price: 14000,
     category: "Supplements",
-    image: "images/ginbiloba.jpg",
+    image: "images16.jpg",
     description: "Supplement designed to support memory and brain wellness."
   },
   {
@@ -139,7 +139,7 @@ const products = [
     name: "Edimax Difens (Internal Detox)",
     price: 11000,
     category: "Herbal Products",
-    image: "images/edimax-difens.jpg",
+    image: "images17.jpg",
     description: "Herbal detox support capsule for internal wellness."
   },
   {
@@ -147,7 +147,7 @@ const products = [
     name: "Ediherb Lung Care",
     price: 12000,
     category: "Herbal Products",
-    image: "images/lung-care.jpg",
+    image: "images18.jpg",
     description: "Herbal nutraceutical support for lung wellness."
   },
   {
@@ -155,7 +155,7 @@ const products = [
     name: "Kidney Care Herbal Capsules",
     price: 12000,
     category: "Herbal Products",
-    image: "images/kidney-care.jpg",
+    image: "images19.jpg",
     description: "Herbal capsule support for kidney wellness."
   },
   {
@@ -163,7 +163,7 @@ const products = [
     name: "Immune Booster",
     price: 13500,
     category: "Supplements",
-    image: "images/immune-booster.jpg",
+    image: "images20.jpg",
     description: "Supplement designed to support immune wellness."
   },
   {
@@ -171,7 +171,7 @@ const products = [
     name: "Garligin-K Softgel",
     price: 14500,
     category: "Supplements",
-    image: "images/garligin-k.jpg",
+    image: "images21.jpg",
     description: "Black seed oil, ginger oil and garlic oil softgel support."
   },
   {
@@ -179,7 +179,7 @@ const products = [
     name: "Fitforlife Herbal Stem Cell",
     price: 16000,
     category: "Liquid Supplements",
-    image: "images/fitforlife-stem-cell.jpg",
+    image: "images22.jpg",
     description: "Liquid herbal wellness product for daily body support."
   },
   {
@@ -187,7 +187,7 @@ const products = [
     name: "Ediherb Coenzyme Q10",
     price: 15000,
     category: "Supplements",
-    image: "images/q10.jpg",
+    image: "images23.jpg",
     description: "Dietary supplement for heart and daily energy support."
   },
   {
@@ -195,7 +195,7 @@ const products = [
     name: "Vigor Brand Multivitamin B Tablets",
     price: 13000,
     category: "Supplements",
-    image: "images/multivitamin-b.jpg",
+    image: "images24.jpg",
     description: "Multivitamin B tablet product for daily nutritional support."
   },
   {
@@ -203,7 +203,7 @@ const products = [
     name: "Pure Valoten",
     price: 14500,
     category: "Supplements",
-    image: "images/pure-valoten.jpg",
+    image: "images25.jpg",
     description: "Supplement product for immune and anti-inflammatory support."
   },
   {
@@ -211,7 +211,15 @@ const products = [
     name: "Edible Omega 3 Fish Oil",
     price: 15500,
     category: "Supplements",
-    image: "images/omega-3.jpg",
+    image: "images26.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  }
+  {
+    id: 26,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images27.jpg",
     description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
   }
 ];
