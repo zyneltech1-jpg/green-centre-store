@@ -11,7 +11,7 @@ const products = [
     name: "Kunlun Mountain Snow Chrysanthemum",
     price: 12000,
     category: "Liquid Supplements",
-    image: "product1.jpg",
+    image: "images1.jpg",
     description: "Natural wellness tea product for general body support."
   },
   {
@@ -19,7 +19,7 @@ const products = [
     name: "Longreen Chitin Softgel",
     price: 15000,
     category: "Supplements",
-    image: "product2 (2).jpg",
+    image: "images2.jpg",
     description: "Softgel supplement designed for daily wellness support."
   },
   {
@@ -27,7 +27,7 @@ const products = [
     name: "Malaphoid Herbal Capsules",
     price: 10000,
     category: "Herbal Products",
-    image: "product3 (3).jpg",
+    image: "images3.jpg",
     description: "Herbal capsule product for body wellness support."
   },
   {
@@ -35,7 +35,7 @@ const products = [
     name: "Diabetes Care Herbal Capsules",
     price: 12000,
     category: "Herbal Products",
-    image: "product4 (4).jpg",
+    image: "images4.jpg",
     description: "Herbal support product for metabolic wellness."
   },
   {
@@ -43,7 +43,7 @@ const products = [
     name: "Athrilax",
     price: 14000,
     category: "Pain Relief",
-    image: "product5.jpg",
+    image: "images5.jpg",
     description: "Capsule product for joint and body comfort support."
   },
   {
@@ -51,7 +51,7 @@ const products = [
     name: "Golden Six Pills",
     price: 18000,
     category: "Supplements",
-    image: "product6.jpg",
+    image: "images6.jpg",
     description: "Supplement pill product for general daily support."
   },
   {
@@ -59,7 +59,7 @@ const products = [
     name: "Stroke Caps",
     price: 11000,
     category: "Herbal Products",
-    image: "images/stroke-caps.jpg",
+    image: "images7.jpg",
     description: "Herbal capsule product for circulatory wellness support."
   },
   {
@@ -67,7 +67,7 @@ const products = [
     name: "Venecare 40 (Std Care)",
     price: 12000,
     category: "Herbal Products",
-    image: "images/venecare-40.jpg",
+    image: "images8.jpg",
     description: "Herbal capsule product for wellness support."
   },
   {
@@ -75,7 +75,7 @@ const products = [
     name: "Men's Formula Herbal Capsules",
     price: 13000,
     category: "Herbal Products",
-    image: "images/mens-formula.jpg",
+    image: "images9.jpg",
     description: "Herbal formula designed for men's wellness support."
   },
   {
@@ -83,7 +83,7 @@ const products = [
     name: "Ulcer Care Herbal Capsules",
     price: 11000,
     category: "Herbal Products",
-    image: "images/ulcer-care.jpg",
+    image: "images10.jpg",
     description: "Herbal product for digestive wellness support."
   },
   {
