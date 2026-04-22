@@ -213,6 +213,78 @@ const products = [
     category: "Supplements",
     image: "images26.jpg",
     description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  },
+  {
+    id: 27,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images27.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  },
+  {
+    id: 28,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images28.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  },
+  {
+    id: 29,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images29.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  },
+  {
+    id: 30,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images30.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  },
+  {
+    id: 31,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images31.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  },
+  {
+    id: 32,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images32.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  },
+  {
+    id: 33,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images33.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  },
+  {
+    id: 34,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images34.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  },
+  {
+    id: 35,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images35.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
   }
 ];
 
