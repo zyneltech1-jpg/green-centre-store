@@ -215,8 +215,8 @@ const products = [
     description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
   }
   {
-    id: 26,
-    name: "Edible Omega 3 Fish Oil",
+    id: 27,
+    name: "Edible 3 Fish Oil",
     price: 15500,
     category: "Supplements",
     image: "images27.jpg",
