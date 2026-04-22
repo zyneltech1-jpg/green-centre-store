@@ -214,14 +214,6 @@ const products = [
     image: "images26.jpg",
     description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
   }
-  {
-    id: 27,
-    name: "Edible 3 Fish Oil",
-    price: 15500,
-    category: "Supplements",
-    image: "images27.jpg",
-    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
-  }
 ];
 
 /* =========================
