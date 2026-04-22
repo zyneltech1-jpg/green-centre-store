@@ -19,7 +19,7 @@ const products = [
     name: "Longreen Chitin Softgel",
     price: 15000,
     category: "Supplements",
-    image: "images/chitin-softgel.jpg",
+    image: "product2.jpg",
     description: "Softgel supplement designed for daily wellness support."
   },
   {
@@ -27,7 +27,7 @@ const products = [
     name: "Malaphoid Herbal Capsules",
     price: 10000,
     category: "Herbal Products",
-    image: "images/malaphoid.jpg",
+    image: "product3.jpg",
     description: "Herbal capsule product for body wellness support."
   },
   {
@@ -35,7 +35,7 @@ const products = [
     name: "Diabetes Care Herbal Capsules",
     price: 12000,
     category: "Herbal Products",
-    image: "images/diabetes-care.jpg",
+    image: "product4.jpg",
     description: "Herbal support product for metabolic wellness."
   },
   {
@@ -43,7 +43,7 @@ const products = [
     name: "Athrilax",
     price: 14000,
     category: "Pain Relief",
-    image: "images/athrilax.jpg",
+    image: "product5.jpg",
     description: "Capsule product for joint and body comfort support."
   },
   {
@@ -51,7 +51,7 @@ const products = [
     name: "Golden Six Pills",
     price: 18000,
     category: "Supplements",
-    image: "images/golden-six-pills.jpg",
+    image: "product6.jpg",
     description: "Supplement pill product for general daily support."
   },
   {
