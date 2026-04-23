@@ -406,7 +406,216 @@ const products = [
     image: "images50.jpg",
     description: "Black seed oil, ginger oil and garlic oil softgel support."
   },
+  {
+    id: 51,
+    name: "Kunlun Mountain Snow Chrysanthemum",
+    price: 12000,
+    category: "Liquid Supplements",
+    image: "images51.jpg",
+    description: "Natural wellness tea product for general body support."
+  },
+  {
+    id: 52,
+    name: "Longreen Chitin Softgel",
+    price: 15000,
+    category: "Supplements",
+    image: "images52.jpg",
+    description: "Softgel supplement designed for daily wellness support."
+  },
+  {
+    id: 53,
+    name: "Malaphoid Herbal Capsules",
+    price: 10000,
+    category: "Herbal Products",
+    image: "images53.jpg",
+    description: "Herbal capsule product for body wellness support."
+  },
+  {
+    id: 54,
+    name: "Diabetes Care Herbal Capsules",
+    price: 12000,
+    category: "Herbal Products",
+    image: "images54.jpg",
+    description: "Herbal support product for metabolic wellness."
+  },
+  {
+    id: 55,
+    name: "Athrilax",
+    price: 14000,
+    category: "Pain Relief",
+    image: "images55.jpg",
+    description: "Capsule product for joint and body comfort support."
+  },
+  {
+    id: 56,
+    name: "Golden Six Pills",
+    price: 18000,
+    category: "Supplements",
+    image: "images56.jpg",
+    description: "Supplement pill product for general daily support."
+  },
+  {
+    id: 57,
+    name: "Stroke Caps",
+    price: 11000,
+    category: "Herbal Products",
+    image: "images57.jpg",
+    description: "Herbal capsule product for circulatory wellness support."
+  },
+  {
+    id: 58,
+    name: "Venecare 40 (Std Care)",
+    price: 12000,
+    category: "Herbal Products",
+    image: "images58.jpg",
+    description: "Herbal capsule product for wellness support."
+  },
+  {
+    id: 59,
+    name: "Men's Formula Herbal Capsules",
+    price: 13000,
+    category: "Herbal Products",
+    image: "images59.jpg",
+    description: "Herbal formula designed for men's wellness support."
+  },
+  {
+    id: 60,
+    name: "Ulcer Care Herbal Capsules",
+    price: 11000,
+    category: "Herbal Products",
+    image: "images60.jpg",
+    description: "Herbal product for digestive wellness support."
+  },
+  {
+    id: 61,
+    name: "Ganoderma Lucidum Spore Powder",
+    price: 17000,
+    category: "Supplements",
+    image: "images61.jpg",
+    description: "Capsule supplement for immune and wellness support."
+  },
+  {
+    id: 62,
+    name: "Natural Antibiotics (Dukun Care)",
+    price: 10000,
+    category: "Herbal Products",
+    image: "images62.jpg",
+    description: "Natural herbal support product for everyday wellness."
+  },
+  {
+    id: 63,
+    name: "Eye Care Herbal Capsules",
+    price: 10000,
+    category: "Herbal Products",
+    image: "images63.jpg",
+    description: "Herbal capsule product for eye wellness support."
+  },
+  {
+    id: 64,
+    name: "Stop Piles Herbal Capsules",
+    price: 10000,
+    category: "Herbal Products",
+    image: "images64.jpg",
+    description: "Herbal support product for digestive comfort."
+  },
+  {
+    id: 65,
+    name: "Hyperthyroidism Capsule",
+    price: 12500,
+    category: "Herbal Products",
+    image: "images65.jpg",
+    description: "Capsule product for thyroid wellness support."
+  },
+  {
+    id: 66,
+    name: "EH GinBiloba Extra Strength",
+    price: 14000,
+    category: "Supplements",
+    image: "images66.jpg",
+    description: "Supplement designed to support memory and brain wellness."
+  },
+  {
+    id: 67,
+    name: "Edimax Difens (Internal Detox)",
+    price: 11000,
+    category: "Herbal Products",
+    image: "images67.jpg",
+    description: "Herbal detox support capsule for internal wellness."
+  },
+  {
+    id: 68,
+    name: "Ediherb Lung Care",
+    price: 12000,
+    category: "Herbal Products",
+    image: "images68.jpg",
+    description: "Herbal nutraceutical support for lung wellness."
+  },
+  {
+    id: 69,
+    name: "Kidney Care Herbal Capsules",
+    price: 12000,
+    category: "Herbal Products",
+    image: "images69.jpg",
+    description: "Herbal capsule support for kidney wellness."
+  },
+  {
+    id: 70,
+    name: "Immune Booster",
+    price: 13500,
+    category: "Supplements",
+    image: "images70.jpg",
+    description: "Supplement designed to support immune wellness."
+  },
+  {
+    id: 71,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images71.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 72,
+    name: "Fitforlife Herbal Stem Cell",
+    price: 16000,
+    category: "Liquid Supplements",
+    image: "images72.jpg",
+    description: "Liquid herbal wellness product for daily body support."
+  },
+  {
+    id: 73,
+    name: "Ediherb Coenzyme Q10",
+    price: 15000,
+    category: "Supplements",
+    image: "images73.jpg",
+    description: "Dietary supplement for heart and daily energy support."
+  },
+  {
+    id: 74,
+    name: "Vigor Brand Multivitamin B Tablets",
+    price: 13000,
+    category: "Supplements",
+    image: "images74.jpg",
+    description: "Multivitamin B tablet product for daily nutritional support."
+  },
+  {
+    id: 75,
+    name: "Pure Valoten",
+    price: 14500,
+    category: "Supplements",
+    image: "images75.jpg",
+    description: "Supplement product for immune and anti-inflammatory support."
+  },
+  {
+    id: 76,
+    name: "Edible Omega 3 Fish Oil",
+    price: 15500,
+    category: "Supplements",
+    image: "images76.jpg",
+    description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
+  }
 ];
+
 
 /* =========================
    HELPERS
