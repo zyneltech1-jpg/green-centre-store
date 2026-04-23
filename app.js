@@ -285,7 +285,127 @@ const products = [
     category: "Supplements",
     image: "images35.jpg",
     description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
-  }
+  },
+  {
+    id: 36,
+    name: "Kidney Care Herbal Capsules",
+    price: 12000,
+    category: "Herbal Products",
+    image: "images36.jpg",
+    description: "Herbal capsule support for kidney wellness."
+  },
+  {
+    id: 37,
+    name: "Kidney Care Herbal Capsules",
+    price: 12000,
+    category: "Herbal Products",
+    image: "images37.jpg",
+    description: "Herbal capsule support for kidney wellness."
+  },
+  {
+    id: 38,
+    name: "Kidney Care Herbal Capsules",
+    price: 12000,
+    category: "Herbal Products",
+    image: "images38.jpg",
+    description: "Herbal capsule support for kidney wellness."
+  },
+  {
+    id: 39,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images39.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 40,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images40.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 41,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images41.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 42,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images42.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 43,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images43.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 44,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images44.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 45,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images45.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 46,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images46.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 47,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images47.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 48,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images48.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 49,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images49.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
+  {
+    id: 50,
+    name: "Garligin-K Softgel",
+    price: 14500,
+    category: "Supplements",
+    image: "images50.jpg",
+    description: "Black seed oil, ginger oil and garlic oil softgel support."
+  },
 ];
 
 /* =========================
@@ -831,35 +951,7 @@ function setupCheckoutForm() {
     localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
     localStorage.removeItem("greenCentreCart");
 
-    function completeOrder() {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  if (cart.length === 0) {
-    alert("Cart is empty");
-    return;
-  }
-
-  const orders = JSON.parse(localStorage.getItem("orders")) || [];
-
-  const newOrder = {
-    id: "ORD-" + Date.now(),
-    items: cart,
-    total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
-    status: "Processing",
-    createdAt: new Date().toISOString()
-  };
-
-  orders.push(newOrder);
-
-  localStorage.setItem("orders", JSON.stringify(orders));
-
-  // clear cart after order
-  localStorage.removeItem("cart");
-
-  alert("Order placed successfully!");
-
-  window.location.href = "orders.html";
-}
+    window.location.href = "order-success.html";
   });
 }
 
@@ -952,10 +1044,6 @@ function setupLogout() {
     localStorage.removeItem("greenCentreLoggedIn");
     window.location.href = "welcome.html";
   });
-}
-
-function goToOrders() {
-  window.location.href = "orders.html";
 }
 
 /* =========================
