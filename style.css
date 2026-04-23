@@ -1115,3 +1115,66 @@ img {
   border-radius: 10px;
   cursor: pointer;
 }
+
+/* FOOTER */
+.footer {
+  background: #0f2d1c;
+  color: white;
+  padding: 20px 15px;
+  margin-top: 40px;
+}
+
+.footer-top {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  font-size: 13px;
+}
+
+.footer h4 {
+  margin-bottom: 5px;
+}
+
+.footer p {
+  margin: 3px 0;
+  color: #ccc;
+}
+
+/* EXTRA */
+.footer-extra {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.newsletter {
+  display: flex;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.newsletter input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+.newsletter button {
+  padding: 8px;
+  background: green;
+  color: white;
+  border: none;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 12px;
+  border-top: 1px solid #333;
+  padding-top: 10px;
+}
