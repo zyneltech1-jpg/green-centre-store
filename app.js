@@ -718,7 +718,7 @@ function renderProductGrid(targetId, items) {
       <h3 class="product-name">${product.name}</h3>
       <p class="product-price">${formatPrice(product.price)}</p>
     </article>
-  `).join("");
+  `).join     ("");
 }
 
 /* =========================
@@ -1117,6 +1117,7 @@ function setupCheckoutForm() {
 
   const user = getUser();
 
+  // Autofill user details
   if (user) {
     const fullName = document.getElementById("fullName");
     const emailAddress = document.getElementById("emailAddress");
@@ -1131,15 +1132,38 @@ function setupCheckoutForm() {
     e.preventDefault();
 
     const cart = getCart();
+
     if (!cart.length) {
       alert("Your cart is empty.");
       return;
     }
 
+    // ✅ Generate Order Info
+    const orderId = generateOrderId();
+    const orderStatus = "Pending";
+    const orderDate = new Date().toDateString();
+    const readyDate = getFutureDate(3);
+
+    // ✅ Calculate Total
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    // OPTIONAL: Dynamic delivery later
+    const delivery = 3000;
+    const total = subtotal + delivery;
+
+    // ✅ Payment
     const paymentMethod =
       document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
 
+    // ✅ Build Order Object
     const order = {
+      id: orderId,
+      status: orderStatus,
+      orderDate,
+      readyDate,
+      total,
+      paymentMethod,
+
       customer: {
         fullName: document.getElementById("fullName").value.trim(),
         email: document.getElementById("emailAddress").value.trim(),
@@ -1148,22 +1172,26 @@ function setupCheckoutForm() {
         city: document.getElementById("city").value.trim(),
         state: document.getElementById("state").value.trim()
       },
-      paymentMethod,
+
       items: cart,
       createdAt: new Date().toISOString()
     };
 
+    // ✅ Save Orders List
     const existingOrders = getOrders();
     existingOrders.unshift(order);
     saveOrders(existingOrders);
 
+    // ✅ Save Last Order
     localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
+
+    // ✅ Clear Cart
     localStorage.removeItem("greenCentreCart");
 
+    // ✅ Redirect
     window.location.href = "order-success.html";
   });
 }
-
 /* =========================
    ORDER SUCCESS
 ========================= */
@@ -1226,6 +1254,55 @@ function renderOrderHistory() {
       </div>
     `;
   }).join("");
+}
+
+/* ==========================
+   ORDER SYSTEM (ADD HERE)
+========================== */
+
+function generateOrderCode() {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  function part(length) {
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
+  }
+
+  return `GRC-${part(4)}-${part(4)}-${part(4)}`;
+}
+
+function getFutureDate(days) {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+  return date.toDateString();
+}
+
+function generateOrderId() {
+  return "GC-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+}
+
+function getFutureDate(days) {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+  return date.toDateString();
+}
+
+function placeOrder() {
+  const orderCode = generateOrderCode();
+
+  const order = {
+    id: orderCode,
+    date: new Date().toDateString(),
+    status: "Pending",
+    total: document.getElementById("total")?.innerText || "0"
+  };
+
+  localStorage.setItem("lastOrder", JSON.stringify(order));
+
+  window.location.href = "order-success.html";
 }
 
 /* =========================

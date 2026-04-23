@@ -22,56 +22,40 @@
     <div id="orderHistoryList"></div>
   </main>
 
-  <nav class="bottom-nav">
-      <a href="index.html" class="nav-item active">
-        <span>🏠</span>
-        <small>Home</small>
-      </a>
-      <a href="categories.html" class="nav-item" onclick="setSelectedCategory('All')">
-        <span>📂</span>
-        <small>Categories</small>
-      </a>
-      <a href="cart.html" class="nav-item">
-        <span>🛒</span>
-        <small>Cart</small>
-      </a>
-      <a href="account.html" class="nav-item">
-        <span>👤</span>
-        <small>Account</small>
-      </a>
-    </nav>
-
   <!-- SCRIPT -->
   <script>
-function loadOrders() {
-    const orders = JSON.parse(localStorage.getItem("orders")) || [];
-    const container = document.getElementById("orderHistoryList");
-
-    if (!container) return;
-
-    if (orders.length === 0) {
-        container.innerHTML = "<p>No orders yet</p>";
-        return;
+    function getOrders() {
+      return JSON.parse(localStorage.getItem("orders")) || [];
     }
 
-    container.innerHTML = orders.map((order, index) => `
-        <div class="order-card" onclick="viewOrder(${index})">
-            <h3>${order.id}</h3>
+    function renderOrders() {
+      const container = document.getElementById("orderHistoryList");
+      if (!container) return;
+
+      const orders = getOrders();
+
+      if (!orders.length) {
+        container.innerHTML = "<p>No orders yet</p>";
+        return;
+      }
+
+      container.innerHTML = orders.map((order, index) => {
+        const itemCount = order.items.reduce((sum, item) => sum + item.qty, 0);
+
+        return `
+          <div class="order-card">
+            <h3>Order #${orders.length - index}</h3>
             <p>${new Date(order.createdAt).toLocaleString()}</p>
-            <p>${order.items.length} item(s)</p>
-            <p>Status: ${order.status}</p>
+            <p>${itemCount} item(s)</p>
+            <p>Payment: ${order.paymentMethod}</p>
             <h4>₦${order.total}</h4>
-        </div>
-    `).join("");
-}
+          </div>
+        `;
+      }).join("");
+    }
 
-function viewOrder(index) {
-    localStorage.setItem("selectedOrderIndex", index);
-    window.location.href = "order-details.html";
-}
-
-document.addEventListener("DOMContentLoaded", loadOrders);
-</script>
+    document.addEventListener("DOMContentLoaded", renderOrders);
+  </script>
 
 </body>
 </html>

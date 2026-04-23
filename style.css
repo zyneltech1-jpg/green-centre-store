@@ -1178,3 +1178,16 @@ img {
   border-top: 1px solid #333;
   padding-top: 10px;
 }
+
+.order-code-box {
+  background: #f1f5f3;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.order-code-box h2 {
+  color: #1f8f4e;
+  letter-spacing: 2px;
+}
