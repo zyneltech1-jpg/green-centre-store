@@ -616,6 +616,7 @@ const products = [
   }
 ];
 
+
 /* =========================
    HELPERS
 ========================= */
@@ -1116,7 +1117,6 @@ function setupCheckoutForm() {
 
   const user = getUser();
 
-  // Autofill user details
   if (user) {
     const fullName = document.getElementById("fullName");
     const emailAddress = document.getElementById("emailAddress");
@@ -1128,51 +1128,41 @@ function setupCheckoutForm() {
   }
 
   form.addEventListener("submit", function (e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  const cart = getCart();
-  if (!cart.length) {
-    alert("Your cart is empty.");
-    return;
-  }
+    const cart = getCart();
+    if (!cart.length) {
+      alert("Your cart is empty.");
+      return;
+    }
 
-  const paymentMethod =
-    document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
+    const paymentMethod =
+      document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
 
-  const order = {
-    id: "ORD-" + Date.now(),
-    status: "Pending",
-    date: new Date().toDateString(),
-    readyDate: getFutureDate(3),
+    const order = {
+      customer: {
+        fullName: document.getElementById("fullName").value.trim(),
+        email: document.getElementById("emailAddress").value.trim(),
+        phone: document.getElementById("phoneNumber").value.trim(),
+        address: document.getElementById("deliveryAddress").value.trim(),
+        city: document.getElementById("city").value.trim(),
+        state: document.getElementById("state").value.trim()
+      },
+      paymentMethod,
+      items: cart,
+      createdAt: new Date().toISOString()
+    };
 
-    customer: {
-      fullName: document.getElementById("fullName").value.trim(),
-      email: document.getElementById("emailAddress").value.trim(),
-      phone: document.getElementById("phoneNumber").value.trim(),
-      address: document.getElementById("deliveryAddress").value.trim(),
-      city: document.getElementById("city").value.trim(),
-      state: document.getElementById("state").value.trim()
-    },
+    const existingOrders = getOrders();
+    existingOrders.unshift(order);
+    saveOrders(existingOrders);
 
-    paymentMethod,
-    items: cart,
-    createdAt: new Date().toISOString()
-  };
+    localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
+    localStorage.removeItem("greenCentreCart");
 
-  // Save orders
-  const existingOrders = getOrders();
-  existingOrders.unshift(order);
-  saveOrders(existingOrders);
-
-  // Save for success page
-  localStorage.setItem("lastOrder", JSON.stringify(order));
-
-  // Clear cart
-  localStorage.removeItem("cart");
-
-  // Redirect
-  window.location.href = "order-success.html";
-});
+    window.location.href = "order-success.html";
+  });
+}
 
 /* =========================
    ORDER SUCCESS
@@ -1236,49 +1226,6 @@ function renderOrderHistory() {
       </div>
     `;
   }).join("");
-}
-
-/* ==========================
-   ORDER SYSTEM (ADD HERE)
-========================== */
-
-function generateOrderCode() {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-  function part(length) {
-    let result = "";
-    for (let i = 0; i < length; i++) {
-      result += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return result;
-  }
-
-  return `GRC-${part(4)}-${part(4)}-${part(4)}`;
-}
-
-function generateOrderId() {
-  return "GC-" + Math.random().toString(36).substr(2, 9).toUpperCase();
-}
-
-function getFutureDate(days) {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return date.toDateString();
-}
-
-function placeOrder() {
-  const orderCode = generateOrderCode();
-
-  const order = {
-    id: orderCode,
-    date: new Date().toDateString(),
-    status: "Pending",
-    total: document.getElementById("total")?.innerText || "0"
-  };
-
-  localStorage.setItem("lastOrder", JSON.stringify(order));
-
-  window.location.href = "order-success.html";
 }
 
 /* =========================
