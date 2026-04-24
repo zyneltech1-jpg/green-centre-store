@@ -616,7 +616,6 @@ const products = [
   }
 ];
 
-
 /* =========================
    HELPERS
 ========================= */
@@ -718,7 +717,7 @@ function renderProductGrid(targetId, items) {
       <h3 class="product-name">${product.name}</h3>
       <p class="product-price">${formatPrice(product.price)}</p>
     </article>
-  `).join     ("");
+  `).join("");
 }
 
 /* =========================
@@ -1174,7 +1173,7 @@ function setupCheckoutForm() {
   // Redirect
   window.location.href = "order-success.html";
 });
-  
+
 /* =========================
    ORDER SUCCESS
 ========================= */
