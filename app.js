@@ -1140,6 +1140,10 @@ function setupCheckoutForm() {
       document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
 
     const order = {
+      id: "ORD-" + Date.now(),
+      status: "Pending",
+      date: new Date().toDateString(),
+
       customer: {
         fullName: document.getElementById("fullName").value.trim(),
         email: document.getElementById("emailAddress").value.trim(),
@@ -1148,6 +1152,7 @@ function setupCheckoutForm() {
         city: document.getElementById("city").value.trim(),
         state: document.getElementById("state").value.trim()
       },
+      
       paymentMethod,
       items: cart,
       createdAt: new Date().toISOString()
