@@ -1129,69 +1129,52 @@ function setupCheckoutForm() {
   }
 
   form.addEventListener("submit", function (e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const cart = getCart();
+  const cart = getCart();
+  if (!cart.length) {
+    alert("Your cart is empty.");
+    return;
+  }
 
-    if (!cart.length) {
-      alert("Your cart is empty.");
-      return;
-    }
+  const paymentMethod =
+    document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
 
-    // ✅ Generate Order Info
-    const orderId = generateOrderId();
-    const orderStatus = "Pending";
-    const orderDate = new Date().toDateString();
-    const readyDate = getFutureDate(3);
+  const order = {
+    id: "ORD-" + Date.now(),
+    status: "Pending",
+    date: new Date().toDateString(),
+    readyDate: getFutureDate(3),
 
-    // ✅ Calculate Total
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    customer: {
+      fullName: document.getElementById("fullName").value.trim(),
+      email: document.getElementById("emailAddress").value.trim(),
+      phone: document.getElementById("phoneNumber").value.trim(),
+      address: document.getElementById("deliveryAddress").value.trim(),
+      city: document.getElementById("city").value.trim(),
+      state: document.getElementById("state").value.trim()
+    },
 
-    // OPTIONAL: Dynamic delivery later
-    const delivery = 3000;
-    const total = subtotal + delivery;
+    paymentMethod,
+    items: cart,
+    createdAt: new Date().toISOString()
+  };
 
-    // ✅ Payment
-    const paymentMethod =
-      document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
+  // Save orders
+  const existingOrders = getOrders();
+  existingOrders.unshift(order);
+  saveOrders(existingOrders);
 
-    // ✅ Build Order Object
-    const order = {
-      id: orderId,
-      status: orderStatus,
-      orderDate,
-      readyDate,
-      total,
-      paymentMethod,
+  // Save for success page
+  localStorage.setItem("lastOrder", JSON.stringify(order));
 
-      customer: {
-        fullName: document.getElementById("fullName").value.trim(),
-        email: document.getElementById("emailAddress").value.trim(),
-        phone: document.getElementById("phoneNumber").value.trim(),
-        address: document.getElementById("deliveryAddress").value.trim(),
-        city: document.getElementById("city").value.trim(),
-        state: document.getElementById("state").value.trim()
-      },
+  // Clear cart
+  localStorage.removeItem("cart");
 
-      items: cart,
-      createdAt: new Date().toISOString()
-    };
-
-    // ✅ Save Orders List
-    const existingOrders = getOrders();
-    existingOrders.unshift(order);
-    saveOrders(existingOrders);
-
-    // ✅ Save Last Order
-    localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
-
-    // ✅ Clear Cart
-    localStorage.removeItem("greenCentreCart");
-
-    // ✅ Redirect
-    window.location.href = "order-success.html";
-  });
-}
+  // Redirect
+  window.location.href = "order-success.html";
+});
+  
 /* =========================
    ORDER SUCCESS
 ========================= */
@@ -1272,12 +1255,6 @@ function generateOrderCode() {
   }
 
   return `GRC-${part(4)}-${part(4)}-${part(4)}`;
-}
-
-function getFutureDate(days) {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return date.toDateString();
 }
 
 function generateOrderId() {
