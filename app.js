@@ -1228,6 +1228,49 @@ function renderOrderHistory() {
   }).join("");
 }
 
+/* ==========================
+   ORDER SYSTEM (ADD HERE)
+========================== */
+
+function generateOrderCode() {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  function part(length) {
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
+  }
+
+  return `GRC-${part(4)}-${part(4)}-${part(4)}`;
+}
+
+function generateOrderId() {
+  return "GC-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+}
+
+function getFutureDate(days) {
+  const date = new Date();
+  date.setDate(date.getDate() + days);
+  return date.toDateString();
+}
+
+function placeOrder() {
+  const orderCode = generateOrderCode();
+
+  const order = {
+    id: orderCode,
+    date: new Date().toDateString(),
+    status: "Pending",
+    total: document.getElementById("total")?.innerText || "0"
+  };
+
+  localStorage.setItem("lastOrder", JSON.stringify(order));
+
+  window.location.href = "order-success.html";
+}
+
 /* =========================
    ACCOUNT
 ========================= */
