@@ -1127,56 +1127,49 @@ function setupCheckoutForm() {
     if (phoneNumber) phoneNumber.value = user.phone || "";
   }
 
-  form.addEventListener("submit", function(e){
-  e.preventDefault();
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  const cart = getCart();
+    const cart = getCart();
+    if (!cart.length) {
+      alert("Your cart is empty.");
+      return;
+    }
 
-  if(cart.length === 0){
-    alert("Cart is empty");
-    return;
-  }
+    const paymentMethod =
+      document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
 
-  // ✅ CREATE ORDER (FIXED STRUCTURE)
-  const order = {
-    order_id: "GC-" + Date.now(),
-    status: "Pending",
-    date: new Date().toLocaleString(),
-    items: cart,
-    total: cart.reduce((sum, item) => sum + item.price * item.qty, 0) + 3000
-  };
+    const order = {
+  order_id: "GC-" + Date.now(),
+  status: "Pending",
+  date: new Date().toLocaleString(),
 
-  // ✅ SAVE ORDER (for success page + admin)
-  const existingOrders = JSON.parse(localStorage.getItem("greenCentreOrders")) || [];
-  existingOrders.unshift(order);
+  items: cart,
+  total: cart.reduce((sum, item) => sum + item.price * item.qty, 0) + 3000
+};
 
-  localStorage.setItem("greenCentreOrders", JSON.stringify(existingOrders));
-  localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
+      customer: {
+        fullName: document.getElementById("fullName").value.trim(),
+        email: document.getElementById("emailAddress").value.trim(),
+        phone: document.getElementById("phoneNumber").value.trim(),
+        address: document.getElementById("deliveryAddress").value.trim(),
+        city: document.getElementById("city").value.trim(),
+        state: document.getElementById("state").value.trim()
+      },
 
-  localStorage.removeItem("greenCentreCart");
+      paymentMethod,
+      items: cart,
+      createdAt: new Date().toISOString()
+    };
 
-  // ✅ FORMAT ITEMS (for email template)
-  const itemsHTML = cart.map(item => `
-    <tr>
-      <td>${item.name}</td>
-      <td>${item.qty}</td>
-      <td>₦${item.price}</td>
-    </tr>
-  `).join("");
+    const existingOrders = getOrders();
+    existingOrders.unshift(order);
+    saveOrders(existingOrders);
 
-  // ✅ GET USER DATA
-  const name = document.getElementById("fullName").value;
-  const email = document.getElementById("emailAddress").value;
-  const phone = document.getElementById("phoneNumber").value;
-  const address = document.getElementById("deliveryAddress").value;
-  const city = document.getElementById("city").value;
-  const state = document.getElementById("state").value;
+    localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
+    localStorage.removeItem("greenCentreCart");
 
-  const payment = document.querySelector('input[name="paymentMethod"]:checked')?.value || "N/A";
-
-  // ============================
-  // 📩 SEND EMAIL TO ADMIN
-  // ============================
+Promise.all([
   emailjs.send("service_ir5afre", "template_h3bqnnk", {
     order_id: order.order_id,
     name: name,
@@ -1189,11 +1182,8 @@ function setupCheckoutForm() {
     items: itemsHTML,
     total: order.total,
     date: order.date
-  });
+  }),
 
-  // ============================
-  // 📩 SEND EMAIL TO CUSTOMER
-  // ============================
   emailjs.send("service_ir5afre", "template_1nwnwi4", {
     order_id: order.order_id,
     name: name,
@@ -1205,11 +1195,20 @@ function setupCheckoutForm() {
     address: address,
     city: city,
     state: state
-  });
-
-  // ✅ REDIRECT
+  })
+])
+.then(() => {
+  console.log("Emails sent successfully ✅");
+  window.location.href = "order-success.html";
+})
+.catch(err => {
+  console.error("Email error:", err);
+  alert("Order placed but email failed");
   window.location.href = "order-success.html";
 });
+
+    window.location.href = "order-success.html";
+  });
 }
 
 /* =========================

@@ -48,7 +48,8 @@
             <strong id="successPayment">-</strong>
           </div>
 
-          <div class="summary-row">
+          <div class="summary-row">]
+            \
             <span>Items</span>
             <strong id="successItems">0</strong>
           </div>
@@ -150,9 +151,10 @@
 const order = JSON.parse(localStorage.getItem("greenCentreLastPlacedOrder"));
 
 if (order) {
-  document.getElementById("orderCode").innerText = order.id;
-  document.getElementById("orderStatus").innerText = "Status: " + order.status;
-  document.getElementById("orderDate").innerText = "Date: " + order.orderDate;
+  document.getElementById("orderId").textContent = order.order_id || "N/A";
+  document.getElementById("orderStatus").textContent = order.status || "Pending";
+  document.getElementById("orderDate").textContent = order.date || "N/A";
+}
 
   // ✅ Add Ready Date
   const ready = document.getElementById("successDate");
