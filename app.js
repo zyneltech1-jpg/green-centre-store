@@ -1139,9 +1139,12 @@ function setupCheckoutForm() {
     const paymentMethod =
       document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
 
-      const total = cart.reduce((sum, item) => {
-  return sum + (item.price * item.quantity);
-  }, 0) + 3000; 
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  // dynamic delivery (example: ₦500 per km later)
+  const deliveryFee = 3000; // temporary
+
+   const total = subtotal + deliveryFee;
 
     const order = {
   order_id: "GC-" + Date.now(),
@@ -1166,6 +1169,8 @@ function setupCheckoutForm() {
   createdAt: new Date().toISOString()
 };
 
+  const trackingLink = `https://yourwebsite.com/track.html?order=${order.order_id}`;
+
     const existingOrders = getOrders();
     existingOrders.unshift(order);
     saveOrders(existingOrders);
@@ -1174,12 +1179,27 @@ function setupCheckoutForm() {
     localStorage.removeItem("greenCentreCart");
 
     const itemsHTML = cart.map(item => `
-<tr>
-  <td>${item.name}</td>
-  <td>${item.quantity}</td>
-  <td>₦${item.price}</td>
-</tr>
+  <tr>
+    <td style="padding:10px; border:1px solid #eee;">${item.name}</td>
+    <td style="padding:10px; border:1px solid #eee; text-align:center;">${item.quantity}</td>
+    <td style="padding:10px; border:1px solid #eee;">₦${item.price.toLocaleString()}</td>
+  </tr>
 `).join("");
+
+const itemsTable = `
+<table style="width:100%; border-collapse:collapse; margin-top:10px;">
+  <thead style="background:#0f766e; color:white;">
+    <tr>
+      <th style="padding:10px;">Item</th>
+      <th style="padding:10px;">Qty</th>
+      <th style="padding:10px;">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${itemsHTML}
+  </tbody>
+</table>
+`;
 
 Promise.all([
   emailjs.send("service_ir5afre", "template_h3bqnnk", {
@@ -1191,22 +1211,28 @@ Promise.all([
     city: order.customer.city,
     state: order.customer.state,
     payment: order.payment,
-    items: itemsHTML,
-    total: total,
-    date: order.date
+    items: itemsTable,
+    subtotal: subtotal.toLocaleString(),
+    delivery: deliveryFee.toLocaleString(),
+    total: total.toLocaleString(),
+    date: order.date,
+    tracking_link: trackingLink
   }),
 
   emailjs.send("service_ir5afre", "template_1nwnwi4", {
     order_id: order.order_id,
     name: order.customer.fullName,
-    email: order.customer.email,
-    items: itemsHTML,
-    total: total,
+    email: order.customer.email, 
+    items: itemsTable,
+    subtotal: subtotal.toLocaleString(),
+    delivery: deliveryFee.toLocaleString(),
+    total: total.toLocaleString(),
     date: order.date,
     payment: order.payment,
     address: order.customer.address,
     city: order.customer.city,
-    state: order.customer.state
+    state: order.customer.state,
+    tracking_link: trackingLink
   })
 
 ]) 
