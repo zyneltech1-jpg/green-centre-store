@@ -1151,8 +1151,8 @@ function setupCheckoutForm() {
 
       customer: {
         fullName: document.getElementById("fullName").value.trim(),
-        email: document.getElementById("emailAddress").value.trim(),
         phone: document.getElementById("phoneNumber").value.trim(),
+        email: document.getElementById("emailAddress").value.trim(),
         address: document.getElementById("deliveryAddress").value.trim(),
         city: document.getElementById("city").value.trim(),
         state: document.getElementById("state").value.trim()
