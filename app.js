@@ -1145,7 +1145,7 @@ function setupCheckoutForm() {
   date: new Date().toLocaleString(),
 
   items: cart,
-  total: cart.reduce((sum, item) => sum + item.price * item.qty, 0) + 3000
+  total: cart.reduce((sum, item) => sum + item.price * item.qty, 0) + 3000,
 };
 
       customer: {
