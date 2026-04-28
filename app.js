@@ -1147,21 +1147,20 @@ function setupCheckoutForm() {
   items: cart,
 
   total: cart.reduce((sum, item) => sum + item.price * item.qty, 0) + 3000,
+
+  customer: {
+    fullName: document.getElementById("fullName").value.trim(),
+    phone: document.getElementById("phoneNumber").value.trim(),
+    email: document.getElementById("emailAddress").value.trim(),
+    address: document.getElementById("deliveryAddress").value.trim(),
+    city: document.getElementById("city").value.trim(),
+    state: document.getElementById("state").value.trim()
+  },
+
+  payment: paymentMethod,
+
+  createdAt: new Date().toISOString()
 };
-
-      customer: {
-        fullName: document.getElementById("fullName").value.trim(),
-        phone: document.getElementById("phoneNumber").value.trim(),
-        email: document.getElementById("emailAddress").value.trim(),
-        address: document.getElementById("deliveryAddress").value.trim(),
-        city: document.getElementById("city").value.trim(),
-        state: document.getElementById("state").value.trim()
-      },
-
-      paymentMethod,
-      items: cart,
-      createdAt: new Date().toISOString()
-    };
 
     const existingOrders = getOrders();
     existingOrders.unshift(order);
@@ -1173,7 +1172,7 @@ function setupCheckoutForm() {
 Promise.all([
 emailjs.send("service_ir5afre", "template_h3bqnnk", {
   order_id: order.order_id,
-  name: order.customer.name,
+  name: order.customer.fullname,
   email: order.customer.email,
   phone: order.customer.phone,
   address: order.customer.address,
