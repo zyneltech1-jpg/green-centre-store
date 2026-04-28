@@ -1145,7 +1145,7 @@ function setupCheckoutForm() {
   date: new Date().toLocaleString(),
 
   items: cart,
-  
+
   total: cart.reduce((sum, item) => sum + item.price * item.qty, 0) + 3000,
 };
 
@@ -1171,33 +1171,32 @@ function setupCheckoutForm() {
     localStorage.removeItem("greenCentreCart");
 
 Promise.all([
-  emailjs.send("service_ir5afre", "template_h3bqnnk", {
-    order_id: order.order_id,
-    name: name,
-    email: email,
-    phone: phone,
-    address: address,
-    city: city,
-    state: state,
-    payment: payment,
-    items: itemsHTML,
-    total: order.total,
-    date: order.date
-  }),
+emailjs.send("service_ir5afre", "template_h3bqnnk", {
+  order_id: order.order_id,
+  name: order.customer.name,
+  email: order.customer.email,
+  phone: order.customer.phone,
+  address: order.customer.address,
+  city: order.customer.city,
+  state: order.customer.state,
+  payment: order.payment,
+  items: itemsHTML,
+  total: order.total,
+  date: order.date
+});
 
   emailjs.send("service_ir5afre", "template_1nwnwi4", {
-    order_id: order.order_id,
-    name: name,
-    email: email,
-    items: itemsHTML,
-    total: order.total,
-    date: order.date,
-    payment: payment,
-    address: address,
-    city: city,
-    state: state
-  })
-])
+  order_id: order.order_id,
+  name: order.customer.name,
+  email: order.customer.email,
+  items: itemsHTML,
+  total: order.total,
+  date: order.date,
+  payment: order.payment,
+  address: order.customer.address,
+  city: order.customer.city,
+  state: order.customer.state
+});
 .then(() => {
   console.log("Emails sent successfully ✅");
   window.location.href = "order-success.html";
