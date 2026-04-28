@@ -1196,6 +1196,9 @@ emailjs.send("service_ir5afre", "template_h3bqnnk", {
   city: order.customer.city,
   state: order.customer.state
 });
+
+])
+
 .then(() => {
   console.log("Emails sent successfully ✅");
   window.location.href = "order-success.html";
