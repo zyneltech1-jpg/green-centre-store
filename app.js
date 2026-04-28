@@ -1170,40 +1170,41 @@ function setupCheckoutForm() {
     localStorage.removeItem("greenCentreCart");
 
 Promise.all([
-emailjs.send("service_ir5afre", "template_h3bqnnk", {
-  order_id: order.order_id,
-  name: order.customer.fullname,
-  email: order.customer.email,
-  phone: order.customer.phone,
-  address: order.customer.address,
-  city: order.customer.city,
-  state: order.customer.state,
-  payment: order.payment,
-  items: itemsHTML,
-  total: order.total,
-  date: order.date
-});
+  emailjs.send("service_ir5afre", "template_h3bqnnk", {
+    order_id: order.order_id,
+    name: order.customer.fullName,
+    email: order.customer.email,
+    phone: order.customer.phone,
+    address: order.customer.address,
+    city: order.customer.city,
+    state: order.customer.state,
+    payment: order.payment,
+    items: itemsHTML,
+    total: order.total,
+    date: order.date
+  }),
 
   emailjs.send("service_ir5afre", "template_1nwnwi4", {
-  order_id: order.order_id,
-  name: order.customer.name,
-  email: order.customer.email,
-  items: itemsHTML,
-  total: order.total,
-  date: order.date,
-  payment: order.payment,
-  address: order.customer.address,
-  city: order.customer.city,
-  state: order.customer.state
-});
+    order_id: order.order_id,
+    name: order.customer.fullName,
+    email: order.customer.email,
+    items: itemsHTML,
+    total: order.total,
+    date: order.date,
+    payment: order.payment,
+    address: order.customer.address,
+    city: order.customer.city,
+    state: order.customer.state
+  })
 
-])
+]) 
 
 .then(() => {
   console.log("Emails sent successfully ✅");
   window.location.href = "order-success.html";
 })
-.catch(err => {
+
+.catch((err) => {
   console.error("Email error:", err);
   alert("Order placed but email failed");
   window.location.href = "order-success.html";
