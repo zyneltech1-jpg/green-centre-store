@@ -1139,6 +1139,10 @@ function setupCheckoutForm() {
     const paymentMethod =
       document.querySelector('input[name="paymentMethod"]:checked')?.value || "Pay Online";
 
+      const total = cart.reduce((sum, item) => {
+  return sum + (item.price * item.quantity);
+  }, 0) + 3000; 
+
     const order = {
   order_id: "GC-" + Date.now(),
   status: "Pending",
@@ -1170,8 +1174,12 @@ function setupCheckoutForm() {
     localStorage.removeItem("greenCentreCart");
 
     const itemsHTML = cart.map(item => `
-     ${item.name} (x${item.qty}) - ₦${item.price}
-    `).join(", ");
+<tr>
+  <td>${item.name}</td>
+  <td>${item.quantity}</td>
+  <td>₦${item.price}</td>
+</tr>
+`).join("");
 
 Promise.all([
   emailjs.send("service_ir5afre", "template_h3bqnnk", {
@@ -1184,7 +1192,7 @@ Promise.all([
     state: order.customer.state,
     payment: order.payment,
     items: itemsHTML,
-    total: order.total,
+    total: total,
     date: order.date
   }),
 
@@ -1193,7 +1201,7 @@ Promise.all([
     name: order.customer.fullName,
     email: order.customer.email,
     items: itemsHTML,
-    total: order.total,
+    total: total,
     date: order.date,
     payment: order.payment,
     address: order.customer.address,
