@@ -1169,6 +1169,10 @@ function setupCheckoutForm() {
     localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
     localStorage.removeItem("greenCentreCart");
 
+    const itemsHTML = cart.map(item => `
+     ${item.name} (x${item.qty}) - ₦${item.price}
+    `).join(", ");
+
 Promise.all([
   emailjs.send("service_ir5afre", "template_h3bqnnk", {
     order_id: order.order_id,
