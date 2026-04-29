@@ -145,7 +145,7 @@
     </nav>
   </div>
 
-  <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 
 <script>
 const order = JSON.parse(localStorage.getItem("greenCentreLastPlacedOrder"));
@@ -160,7 +160,7 @@ if (order) {
   const ready = document.getElementById("successDate");
   if (ready) {
     ready.innerText = order.readyDate;
-  }
+  }  
 </script>
 
 </body>

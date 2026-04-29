@@ -2,6 +2,31 @@
    GREEN CENTRE APP.JS
 ========================= */
 
+import { db } from "./firebase.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+async function saveOrderToFirebase(order) {
+  try {
+    const docRef = await addDoc(collection(db, "orders"), {
+      orderId: order.order_id,
+      customer: order.customer,
+      items: order.items,
+      total: order.total,
+      payment: order.payment,
+      address: order.customer.address,
+      status: "pending",
+      createdAt: serverTimestamp()
+    });
+
+    console.log("Order saved with ID:", docRef.id);
+    return docRef.id;
+
+  } catch (error) {
+    console.error("Error saving order:", error);
+    alert("Failed to save order");
+  }
+}
+
 /* =========================
    PRODUCTS
 ========================= */
