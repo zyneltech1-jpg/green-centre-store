@@ -1495,5 +1495,5 @@ window.openProduct = function(id) {
 
   localStorage.setItem("selectedProduct", JSON.stringify(product));
 
-  window.location.href = "product.html";
+  window.location.href = "product-details.html";
 };
