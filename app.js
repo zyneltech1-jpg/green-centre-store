@@ -77,7 +77,7 @@ if (placeOrderBtn) {
     // Go to success page
     window.location.href = "order-success.html";
   }
-});
+ };
 
 console.log("APP JS LOADED 🚀");
 
