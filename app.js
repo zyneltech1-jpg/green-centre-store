@@ -27,7 +27,23 @@ async function saveOrderToFirebase(order) {
   }
 }
 
-placeOrderBtn.addEventListener("click", async () => {
+const placeOrderBtn = document.getElementById("placeOrderBtn");
+
+if (placeOrderBtn) {
+  placeOrderBtn.addEventListener("click", async () => {
+    
+    const order = {
+      orderId: "GC-" + Date.now(),
+      items: JSON.parse(localStorage.getItem("greenCentreCart")) || [],
+      total: calculateTotal(),
+      status: "pending",
+      date: new Date().toLocaleString()
+    };
+
+    console.log("Order:", order);
+    
+  });
+}
 
   const order = {
     order_id: "GC-" + Date.now(),
