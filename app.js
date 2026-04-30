@@ -27,6 +27,44 @@ async function saveOrderToFirebase(order) {
   }
 }
 
+placeOrderBtn.addEventListener("click", async () => {
+
+  const order = {
+    order_id: "GC-" + Date.now(),
+
+    customer: {
+      fullname: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      phone: document.getElementById("phone").value,
+      address: document.getElementById("address").value,
+      city: document.getElementById("city").value,
+      state: document.getElementById("state").value
+    },
+
+    items: JSON.parse(localStorage.getItem("greenCentreCart")) || [],
+
+    total: calculateTotal(), // 👈 your existing function
+    payment: "Pay Online",
+    date: new Date().toLocaleString()
+  };
+
+  // 🔥 SAVE TO FIREBASE
+  const firebaseId = await saveOrderToFirebase(order);
+
+  if (firebaseId) {
+    // Save locally too (optional)
+    localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
+
+    // Clear cart
+    localStorage.removeItem("greenCentreCart");
+
+    // Go to success page
+    window.location.href = "order-success.html";
+  }
+});
+
+console.log("APP JS LOADED 🚀");
+
 /* =========================
    PRODUCTS
 ========================= */
@@ -1436,3 +1474,18 @@ document.addEventListener("DOMContentLoaded", function () {
   fillAccount();
   setupLogout();
 });
+
+window.openProduct = function(id) {
+  console.log("Clicked:", id);
+
+  const product = products.find(p => p.id === id);
+
+  if (!product) {
+    console.error("Product not found");
+    return;
+  }
+
+  localStorage.setItem("selectedProduct", JSON.stringify(product));
+
+  window.location.href = "product.html";
+};
