@@ -2,8 +2,11 @@
    GREEN CENTRE APP.JS
 ========================= */
 
+// ==============================
+// 🔥 SAVE ORDER TO FIREBASE
+// ==============================
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { db } from "./firebase.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 async function saveOrderToFirebase(order) {
   try {
@@ -24,59 +27,49 @@ async function saveOrderToFirebase(order) {
   } catch (error) {
     console.error("Error saving order:", error);
     alert("Failed to save order");
+    return null;
   }
 }
 
+// ==============================
+// 🛒 PLACE ORDER BUTTON
+// ==============================
 const placeOrderBtn = document.getElementById("placeOrderBtn");
 
 if (placeOrderBtn) {
   placeOrderBtn.addEventListener("click", async () => {
-    
+
     const order = {
-      orderId: "GC-" + Date.now(),
+      order_id: "GC-" + Date.now(),
+
+      customer: {
+        fullname: document.getElementById("name")?.value || "",
+        email: document.getElementById("email")?.value || "",
+        phone: document.getElementById("phone")?.value || "",
+        address: document.getElementById("address")?.value || "",
+        city: document.getElementById("city")?.value || "",
+        state: document.getElementById("state")?.value || ""
+      },
+
       items: JSON.parse(localStorage.getItem("greenCentreCart")) || [],
-      total: calculateTotal(),
-      status: "pending",
+      total: calculateTotal ? calculateTotal() : 0,
+      payment: "Pay Online",
       date: new Date().toLocaleString()
     };
 
-    console.log("Order:", order);
-    
+    console.log("ORDER:", order);
+
+    const firebaseId = await saveOrderToFirebase(order);
+
+    if (firebaseId) {
+      localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
+      localStorage.removeItem("greenCentreCart");
+
+      window.location.href = "order-success.html";
+    }
+
   });
 }
-
-  const order = {
-    order_id: "GC-" + Date.now(),
-
-    customer: {
-      fullname: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      phone: document.getElementById("phone").value,
-      address: document.getElementById("address").value,
-      city: document.getElementById("city").value,
-      state: document.getElementById("state").value
-    },
-
-    items: JSON.parse(localStorage.getItem("greenCentreCart")) || [],
-
-    total: calculateTotal(), // 👈 your existing function
-    payment: "Pay Online",
-    date: new Date().toLocaleString()
-  };
-
-  // 🔥 SAVE TO FIREBASE
-  const firebaseId = await saveOrderToFirebase(order);
-
-  if (firebaseId) {
-    // Save locally too (optional)
-    localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
-
-    // Clear cart
-    localStorage.removeItem("greenCentreCart");
-
-    // Go to success page
-    window.location.href = "order-success.html";
-});
 
 console.log("APP JS LOADED 🚀");
 
