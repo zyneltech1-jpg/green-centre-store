@@ -1484,10 +1484,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 window.openProduct = function(id) {
-  const product = products.find(p => p.id === Number(id));
+
+  const product = products.find(p => p.id === id);
 
   if (!product) {
-    console.error("Product not found:", id);
+    console.error("Product not found");
     return;
   }
 
@@ -1495,3 +1496,44 @@ window.openProduct = function(id) {
 
   window.location.href = "product-details.html";
 };
+
+function displayHomeProducts() {
+
+  const featured = document.getElementById("featuredProducts");
+  const herbal = document.getElementById("herbalProducts");
+  const supplements = document.getElementById("supplementProducts");
+  const liquid = document.getElementById("liquidProducts");
+
+  if (!featured) return;
+
+  featured.innerHTML = "";
+  herbal.innerHTML = "";
+  supplements.innerHTML = "";
+  liquid.innerHTML = "";
+
+  products.forEach(product => {
+
+    const card = `
+      <div class="product-card" onclick="openProduct(${product.id})">
+        <img src="${product.image}" />
+        <h4>${product.name}</h4>
+        <p>₦${product.price}</p>
+      </div>
+    `;
+
+    // distribute by category
+    if (product.category === "Herbal Products") {
+      herbal.innerHTML += card;
+    } else if (product.category === "Supplements") {
+      supplements.innerHTML += card;
+    } else if (product.category === "Liquid Supplements") {
+      liquid.innerHTML += card;
+    }
+
+    // also show some in featured
+    featured.innerHTML += card;
+
+  });
+}
+
+displayHomeProducts();

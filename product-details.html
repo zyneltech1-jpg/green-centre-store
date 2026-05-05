@@ -130,5 +130,20 @@
   </div>
 
   <script type="module" src="app.js"></script>
+
+  <script>
+const product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+if (product) {
+  document.getElementById("p-img").src = product.image;
+  document.getElementById("p-name").textContent = product.name;
+  document.getElementById("p-price").textContent = "₦" + product.price;
+  document.getElementById("p-category").textContent = product.category;
+  document.getElementById("p-desc").textContent = product.description;
+} else {
+  document.body.innerHTML = "<h2>No product found</h2>";
+}
+</script>
+
 </body>
 </html>
