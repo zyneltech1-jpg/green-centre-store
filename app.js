@@ -666,7 +666,7 @@ const products = [
     name: "Vigor Brand Multivitamin B Tablets",
     price: 13000,
     category: "Supplements",
-    image: "images74.jpg",
+    image: "images72.jpg",
     description: "Multivitamin B tablet product for daily nutritional support."
   },
   {
@@ -674,7 +674,7 @@ const products = [
     name: "Pure Valoten",
     price: 14500,
     category: "Supplements",
-    image: "images75.jpg",
+    image: "images57.jpg",
     description: "Supplement product for immune and anti-inflammatory support."
   },
   {
@@ -682,7 +682,7 @@ const products = [
     name: "Edible Omega 3 Fish Oil",
     price: 15500,
     category: "Supplements",
-    image: "images76.jpg",
+    image: "images65.jpg",
     description: "Omega 3 fish oil softgel for heart, brain and joint wellness."
   }
 ];
