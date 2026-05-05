@@ -1484,12 +1484,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 window.openProduct = function(id) {
-  console.log("Clicked:", id);
-
-  const product = products.find(p => p.id === id);
+  const product = products.find(p => p.id === Number(id));
 
   if (!product) {
-    console.error("Product not found");
+    console.error("Product not found:", id);
     return;
   }
 
