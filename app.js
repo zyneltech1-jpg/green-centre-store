@@ -1492,7 +1492,7 @@ window.openProduct = function(id) {
     return;
   }
 
-  localStorage.setItem("selectedProduct", JSON.stringify(product));
+  localStorage.setItem("greenCentreSelectedProduct", JSON.stringify(product));
 
   window.location.href = "product-details.html";
 };
