@@ -1036,7 +1036,7 @@ function renderCart() {
   if (totalEl) totalEl.textContent = formatPrice(total);
 }
 
-function changeQty(id, change) {
+window.changeQty = function(id, change) {
   const cart = getCart();
   const item = cart.find(product => product.id === id);
   if (!item) return;
@@ -1051,14 +1051,14 @@ function changeQty(id, change) {
 
   updateCartBadge();
   renderCart();
-}
+};
 
-function removeItem(id) {
+window.removeItem = function(id) {
   const cart = getCart().filter(item => item.id !== id);
   saveCart(cart);
   updateCartBadge();
   renderCart();
-}
+};
 
 /* =========================
    WISHLIST
