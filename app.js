@@ -1485,17 +1485,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 window.openProduct = function(id) {
 
-  const product = products.find(p => p.id === id);
+    const product = products.find(p => p.id === id);
 
-  if (!product) {
-    console.error("Product not found");
-    return;
-  }
+    if (!product) {
+        console.error("Product not found");
+        return;
+    }
 
-  localStorage.setItem("greenCentreSelectedProduct", JSON.stringify(product));
+    localStorage.setItem(
+        "greenCentreSelectedProduct",
+        String(id)
+    );
 
-  window.location.href = "product-details.html";
-};
+    window.location.href = "product-details.html";
+}
 
 function displayHomeProducts() {
 
