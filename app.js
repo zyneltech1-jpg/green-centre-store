@@ -1415,19 +1415,22 @@ function getFutureDate(days) {
   return date.toDateString();
 }
 
-function placeOrder() {
-  const orderCode = generateOrderCode();
+async function placeOrder() {
 
-  const order = {
-    id: orderCode,
-    date: new Date().toDateString(),
-    status: "Pending",
-    total: document.getElementById("total")?.innerText || "0"
-  };
+   const orderData = {
+      orderId: "ORD-" + Date.now(),
+      items: cart,
+      total: total,
+      paymentMethod: paymentMethod,
+      createdAt: serverTimestamp(),
+      status: "pending"
+   };
 
-  localStorage.setItem("lastOrder", JSON.stringify(order));
+   await addDoc(collection(db, "orders"), orderData);
 
-  window.location.href = "order-success.html";
+   localStorage.removeItem("greenCentreCart");
+
+   window.location.href = "order-success.html";
 }
 
 /* =========================
