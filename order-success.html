@@ -23,10 +23,8 @@
         <h1>Order Placed Successfully</h1>
         <p class="success-text">Your order has been received successfully.</p>
 
-        <div class="order-code-box">
-          <p>Order Code</p>
-          <h2 id="orderCode"></h2>
-       </div>
+        <div class="order-code-box" 
+        id="orderCode"></div>
 
     <p id="orderStatus"></p>
     <p id="orderDate"></p>
@@ -48,8 +46,7 @@
             <strong id="successPayment">-</strong>
           </div>
 
-          <div class="summary-row">]
-            \
+          <div class="summary-row">
             <span>Items</span>
             <strong id="successItems">0</strong>
           </div>
@@ -149,6 +146,9 @@
 
 <script>
 const order = JSON.parse(localStorage.getItem("greenCentreLastPlacedOrder"));
+
+  const orderId = "GC-" + Date.now();
+  document.getElementById("orderCode").textContent = orderId;
 
 if (order) {
   document.getElementById("orderId").textContent = order.order_id || "N/A";
