@@ -1323,7 +1323,6 @@ Promise.all([
     alert("Order placed but email failed");
     window.location.href = "order-success.html";
 });
-
 }
 
 /* =========================
