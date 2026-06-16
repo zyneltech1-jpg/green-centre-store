@@ -1315,17 +1315,15 @@ Promise.all([
 ]) 
 
 .then(() => {
-  console.log("Emails sent successfully ✅");
-  window.location.href = "order-success.html";
+    console.log("Emails sent successfully ✅");
+    window.location.href = "order-success.html";
 })
-
 .catch((err) => {
-  console.error("Email error:", err);
-  alert("Order placed but email failed");
-  window.location.href = "order-success.html";
+    console.error("Email error:", err);
+    alert("Order placed but email failed");
+    window.location.href = "order-success.html";
 });
 
-  });
 }
 
 /* =========================
