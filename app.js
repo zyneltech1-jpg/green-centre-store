@@ -1520,26 +1520,28 @@ function displayHomeProducts() {
   supplements.innerHTML = "";
   liquid.innerHTML = "";
 
-  products.forEach(product => {
+ products.forEach(product => {
 
     const card = `
-      <div class="product-card" onclick="openProduct(${product.id})">
-        <img src="${product.image}" />
-        <h4>${product.name}</h4>
-        <p>₦${product.price}</p>
-      </div>
+        <div class="product-card" onclick="openProduct(${product.id})">
+            <img src="${product.image}" />
+            <h4>${product.name}</h4>
+            <p>N${product.price}</p>
+        </div>
     `;
 
-    // distribute by category
     if (product.category === "Herbal Products") {
-      herbal.innerHTML += card;
+        herbal.innerHTML += card;
+
     } else if (product.category === "Supplements") {
-      supplements.innerHTML += card;
+        supplements.innerHTML += card;
+
     } else if (product.category === "Liquid Supplements") {
-      liquid.innerHTML += card;
+        liquid.innerHTML += card;
     }
 
-    // also show some in featured
     featured.innerHTML += card;
 
-  });
+});
+
+displayHomeProducts();
