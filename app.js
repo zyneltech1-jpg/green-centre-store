@@ -1543,5 +1543,3 @@ function displayHomeProducts() {
     featured.innerHTML += card;
 
   });
-
-displayHomeProducts();
