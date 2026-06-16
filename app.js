@@ -22,7 +22,8 @@ async function saveOrderToFirebase(order) {
     });
 
     console.log("Order saved with ID:", docRef.id);
-    return docRef.id;
+   order.firebaseId = docRef.id;
+   return docRef.id;
 
   } catch (error) {
     console.error("Error saving order:", error);
@@ -1217,8 +1218,10 @@ function setupCheckoutForm() {
 
    const total = subtotal + deliveryFee;
 
+   const orderId = "GC-" + Date.now();
+
     const order = {
-  order_id: "GC-" + Date.now(),
+          order_id: orderId,
   status: "Pending",
   date: new Date().toLocaleString(),
 
@@ -1245,6 +1248,13 @@ function setupCheckoutForm() {
     const existingOrders = getOrders();
     existingOrders.unshift(order);
     saveOrders(existingOrders);
+
+    const firebaseId = await saveOrderToFirebase(order);
+
+    if (!firebaseId) {
+    alert("Order could not be saved");
+    return;
+    }
 
     localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
     localStorage.removeItem("greenCentreCart");
@@ -1282,7 +1292,7 @@ Promise.all([
     city: order.customer.city,
     state: order.customer.state,
     payment: order.payment,
-    items: itemsTable,
+    items_html: itemsTable,
     subtotal: subtotal.toLocaleString(),
     delivery: deliveryFee.toLocaleString(),
     total: total.toLocaleString(),
@@ -1294,7 +1304,7 @@ Promise.all([
     order_id: order.order_id,
     name: order.customer.fullName,
     email: order.customer.email, 
-    items: itemsTable,
+    items_html: itemsTable,
     subtotal: subtotal.toLocaleString(),
     delivery: deliveryFee.toLocaleString(),
     total: total.toLocaleString(),
@@ -1319,7 +1329,6 @@ Promise.all([
   window.location.href = "order-success.html";
 });
 
-    window.location.href = "order-success.html";
   });
 }
 
@@ -1338,7 +1347,8 @@ function renderOrderSuccess() {
 
   if (!order) {
     dateEl.textContent = "-";
-    paymentEl.textContent = "-";
+   paymentEl.textContent =
+   order.payment || "Pay Online";
     itemsEl.textContent = "0";
     totalEl.textContent = "₦0";
     return;
