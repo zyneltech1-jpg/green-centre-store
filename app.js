@@ -1249,12 +1249,8 @@ function setupCheckoutForm() {
     existingOrders.unshift(order);
     saveOrders(existingOrders);
 
-    const firebaseId = await saveOrderToFirebase(order);
-
-    if (!firebaseId) {
-    alert("Order could not be saved");
-    return;
-    }
+   saveOrderToFirebase(order)
+.then((firebaseId) => {
 
     localStorage.setItem("greenCentreLastPlacedOrder", JSON.stringify(order));
     localStorage.removeItem("greenCentreCart");
